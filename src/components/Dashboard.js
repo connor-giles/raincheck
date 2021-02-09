@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Link } from "react-router-dom"
 
 const weatherAPI = {
     key: "2a57815a865fa327116a8e960e80aa9e",
@@ -37,10 +38,6 @@ export default function Dashboard() {
 
 
     return (
-        // <div>
-        //     Dashboard
-        // </div>
-
         <div className="app">
             <main>
 
@@ -70,6 +67,11 @@ export default function Dashboard() {
             ) : ('')}
 
             </main>
+
+            <div className="display-3 w-100 text-right fixed-top mt-5 pt-5 pr-5">
+                <Link to="/login">Login</Link>
+            </div> 
+
         </div>
     )
 }

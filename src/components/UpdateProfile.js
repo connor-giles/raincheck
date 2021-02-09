@@ -13,7 +13,7 @@ export default function UpdateProfile() {
     const[loading, setLoading] = useState(false)
     const history = useHistory()
 
-    //functions that handles the update of the user's account
+    //functions that handles the updat of the user's account
     function handleSubmit(e) {
         e.preventDefault()
 
