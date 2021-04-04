@@ -8,7 +8,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute.js'
 import ForgotPassword from './ForgotPassword.js'
 import UpdateProfile from './UpdateProfile.js'
-import { db } from '../firebase.js'
+// import { db } from '../firebase.js'
 
 
 function App() {
