@@ -18,13 +18,15 @@ export const db = firebase.firestore()
 
 const helperFunctions = {
     firestoreFunctions: async function (nameOfFunction, data) {
-        var userData = {
-            homeTown: "",
+
+        var userInfo = {
+            homeTown: data.userHometown
         }
         
         switch(nameOfFunction){
+            //adds user to the db and updates their hometown based on what they input
             case "create_new_user":
-                await db.collection('users').doc(data.user.uid).set(userData)
+                await db.collection('users').doc(data.data.user.uid).set(userInfo)
                 break;
                 
             default:

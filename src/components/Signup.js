@@ -2,13 +2,13 @@ import React, {useRef, useState } from 'react'
 import { Card, Form, Button, Container, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from "react-router-dom"
-//import { db, auth } from '../firebase.js'
 
 export default function Signup() {
 
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
+    const homeTownRef = useRef()
     const { signup } = useAuth()
     const[error, setError] = useState('')
     const[loading, setLoading] = useState(false)
@@ -27,7 +27,7 @@ export default function Signup() {
         try {
             setError('')
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value)
+            await signup(emailRef.current.value, passwordRef.current.value, homeTownRef.current.value)
             history.push('/userdashboard')
         } catch {
             setError('Failed to create an account')
@@ -56,6 +56,10 @@ export default function Signup() {
                                     <Form.Group id="password-confirm">
                                         <Form.Label>Password Confirmation</Form.Label>
                                         <Form.Control type="password" ref={passwordConfirmRef} required />
+                                    </Form.Group>
+                                    <Form.Group id="email">
+                                        <Form.Label>Hometown</Form.Label>
+                                        <Form.Control type="hometown" ref={homeTownRef} required />
                                     </Form.Group>
                                     <Button disabled={loading} className="w-100"type="submit">
                                         Sign Up

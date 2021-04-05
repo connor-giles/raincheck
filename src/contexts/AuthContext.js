@@ -16,17 +16,16 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true)
 
     //creates a user based on their username and passsword to store into firebase
-    function signup(email, password) {
+    function signup(email, password, hometown) {
         return auth.createUserWithEmailAndPassword(email, password)
         .then(async function(data){
 
-            console.log(data, "Check")
-            helperFunctions.firestoreFunctions("create_new_user", data)
+            var userData = {
+                data: data,
+                userHometown: hometown
+            }
 
-
-            
-            // // How to add new document
-            // await db.collection('users').doc(data.user.uid).set(userData)
+            helperFunctions.firestoreFunctions("create_new_user", userData)
 
             // // How to add new subcollection
             // await db.collection('users').doc(data.user.uid).collection("userEvents").add({
