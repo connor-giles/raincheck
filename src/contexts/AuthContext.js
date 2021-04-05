@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth } from '../firebase.js'
+import { db } from '../firebase.js'
 
 const AuthContext = React.createContext()
 
@@ -17,6 +18,19 @@ export function AuthProvider({ children }) {
     //creates a user based on their username and passsword to store into firebase
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
+        .then(async function(data){
+            //console.log('uid', data.user.uid)
+            //db.collection('users').doc(data.user.uid)
+            //var temp = await db.collection('testRainCheck').doc('G2zBTSQ2BBnCxoSOLMcB').get()
+            //console.log(temp.data())
+
+            var userData = {
+                homeTown: "Gainesville",
+                events: "Picnic at 3"
+            }
+
+            await db.collection('users').doc(data.user.uid).set(userData)
+        })
     }
 
     function login(email, password) {

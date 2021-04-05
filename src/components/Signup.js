@@ -2,6 +2,7 @@ import React, {useRef, useState } from 'react'
 import { Card, Form, Button, Container, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from "react-router-dom"
+//import { db, auth } from '../firebase.js'
 
 export default function Signup() {
 
