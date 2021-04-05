@@ -14,4 +14,25 @@ const app = firebase.initializeApp({
 
 export const auth = app.auth()
 export const db = firebase.firestore()
-export default app
+// export default app
+
+const helperFunctions = {
+    firestoreFunctions: async function (nameOfFunction, data) {
+        var userData = {
+            homeTown: "",
+        }
+        
+        switch(nameOfFunction){
+            case "create_new_user":
+                await db.collection('users').doc(data.user.uid).set(userData)
+                break;
+                
+            default:
+                console.log("Function not found")
+                break;
+        }
+                
+    }
+}
+        
+export default helperFunctions

@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth } from '../firebase.js'
-import { db } from '../firebase.js'
+import helperFunctions from '../firebase.js'
 
 const AuthContext = React.createContext()
 
@@ -19,17 +19,33 @@ export function AuthProvider({ children }) {
     function signup(email, password) {
         return auth.createUserWithEmailAndPassword(email, password)
         .then(async function(data){
-            //console.log('uid', data.user.uid)
-            //db.collection('users').doc(data.user.uid)
-            //var temp = await db.collection('testRainCheck').doc('G2zBTSQ2BBnCxoSOLMcB').get()
-            //console.log(temp.data())
 
-            var userData = {
-                homeTown: "Gainesville",
-                events: "Picnic at 3"
-            }
+            console.log(data, "Check")
+            helperFunctions.firestoreFunctions("create_new_user", data)
 
-            await db.collection('users').doc(data.user.uid).set(userData)
+
+            
+            // // How to add new document
+            // await db.collection('users').doc(data.user.uid).set(userData)
+
+            // // How to add new subcollection
+            // await db.collection('users').doc(data.user.uid).collection("userEvents").add({
+            //     name: "picnic",
+            //     time: "3 pm",
+            //     outdoor: true
+            // })
+            // await db.collection('users').doc(data.user.uid).collection("userEvents").add({
+            //     name: "basketball",
+            //     time: "5 pm",
+            //     outdoor: false
+            // })
+            
+            // // How to query data
+            // const ref = db.collection('users').doc(data.user.uid).collection("userEvents");
+            // const snapshot = await ref.where('name', '==', 'basketball').get();
+            // snapshot.forEach(doc => {
+            //     console.log(doc.id, '=>', doc.data());
+            // });
         })
     }
 
