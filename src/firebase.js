@@ -28,6 +28,10 @@ const helperFunctions = {
             case "create_new_user":
                 await db.collection('users').doc(data.data.user.uid).set(userInfo)
                 break;
+
+            case "get_user_hometown_from_profile":
+                const doc = await db.collection('users').doc(data).get()
+                return doc.data()
                 
             default:
                 console.log("Function not found")
