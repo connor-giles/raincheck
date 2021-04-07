@@ -57,7 +57,7 @@ export default function Signup() {
                                         <Form.Label>Password Confirmation</Form.Label>
                                         <Form.Control type="password" ref={passwordConfirmRef} required />
                                     </Form.Group>
-                                    <Form.Group id="email">
+                                    <Form.Group id="hometown">
                                         <Form.Label>Hometown</Form.Label>
                                         <Form.Control type="hometown" ref={homeTownRef} required />
                                     </Form.Group>

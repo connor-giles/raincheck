@@ -29,9 +29,14 @@ const helperFunctions = {
                 await db.collection('users').doc(data.data.user.uid).set(userInfo)
                 break;
 
-            case "get_user_hometown_from_profile":
-                const doc = await db.collection('users').doc(data).get()
-                return doc.data()
+            case "get_user_hometown":
+                const htdoc = await db.collection('users').doc(data).get()
+                return htdoc.data()
+
+            case "update_hometown":
+                const updateDoc = db.collection('users').doc(data.user)
+                await updateDoc.update({homeTown: data.homeTownUpdate});
+                break;
                 
             default:
                 console.log("Function not found")

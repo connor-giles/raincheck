@@ -23,9 +23,9 @@ export default function UserDashboard() {
 
     }
 
-    helperFunctions.firestoreFunctions("get_user_hometown_from_profile", currentUser.uid)
+    //gets the users hometown from the database and displays it on their profile
+    helperFunctions.firestoreFunctions("get_user_hometown", currentUser.uid)
     .then((res) => {
-        //console.log(typeof res.homeTown)
         setHomeT(res.homeTown)
     })
     
