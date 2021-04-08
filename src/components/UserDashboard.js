@@ -85,8 +85,6 @@ export default function UserDashboard() {
                 </Card.Body>
             </Card>
 
-        
-
             <h1 className="text-center mb-4">Upcoming Events</h1>
             <CalendarCards id={currentUser.uid}/>
 
