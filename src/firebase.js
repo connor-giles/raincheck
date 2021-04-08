@@ -14,4 +14,58 @@ const app = firebase.initializeApp({
 
 export const auth = app.auth()
 export const db = firebase.firestore()
-export default app
+// export default app
+
+const helperFunctions = {
+    firestoreFunctions: async function (nameOfFunction, data) {
+
+        var userInfo = {
+            homeTown: data.userHometown
+        }
+        
+        switch(nameOfFunction){
+            //adds user to the db and updates their hometown based on what they input
+            case "create_new_user":
+                await db.collection('users').doc(data.data.user.uid).set(userInfo)
+                break;
+
+            //searches the db based on the user and returns the hometown to display on the profile page
+            case "get_user_hometown":
+                const htdoc = await db.collection('users').doc(data).get()
+                return htdoc.data()
+
+            //gives user ability to change town to pull weather info from
+            case "update_hometown":
+                const updateDoc = db.collection('users').doc(data.user)
+                await updateDoc.update({homeTown: data.homeTownUpdate});
+                break;
+
+            //searches db for users events to display on profile
+            case "get_all_events":
+                return await db.collection('users').doc(data).collection('userEvents').get() //gets all db info for that user
+                    
+            // //creates new event in the db for the user
+            // case "add_new_userevent":
+            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
+            //     break;
+
+            // //allows user to update info about a certain event
+            // case "update_userevent":
+            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
+            //     break;
+
+            // //allows user to delete an event
+            // case "delete_userevent":
+            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
+            //     break;
+            
+                
+            default:
+                console.log("Function not found")
+                break;
+        }
+                
+    }
+}
+        
+export default helperFunctions
