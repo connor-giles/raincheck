@@ -29,14 +29,36 @@ const helperFunctions = {
                 await db.collection('users').doc(data.data.user.uid).set(userInfo)
                 break;
 
+            //searches the db based on the user and returns the hometown to display on the profile page
             case "get_user_hometown":
                 const htdoc = await db.collection('users').doc(data).get()
                 return htdoc.data()
 
+            //gives user ability to change town to pull weather info from
             case "update_hometown":
                 const updateDoc = db.collection('users').doc(data.user)
                 await updateDoc.update({homeTown: data.homeTownUpdate});
                 break;
+
+            //searches db for users events to display on profile
+            case "get_all_events":
+                return await db.collection('users').doc(data).collection('userEvents').get() //gets all db info for that user
+                    
+            // //creates new event in the db for the user
+            // case "add_new_userevent":
+            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
+            //     break;
+
+            // //allows user to update info about a certain event
+            // case "update_userevent":
+            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
+            //     break;
+
+            // //allows user to delete an event
+            // case "delete_userevent":
+            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
+            //     break;
+            
                 
             default:
                 console.log("Function not found")

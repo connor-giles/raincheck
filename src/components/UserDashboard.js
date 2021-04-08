@@ -3,6 +3,7 @@ import { Card, Button, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from 'react-router-dom'
 import helperFunctions from '../firebase.js'
+import CalendarCards from './CalendarCards'
 
 const weatherAPI = {
     key: "2a57815a865fa327116a8e960e80aa9e",
@@ -13,6 +14,7 @@ export default function UserDashboard() {
     
     const[error, setError] = useState('')
     const[homeT, setHomeT] = useState('')
+    const[userEvents, setUserEvents] = useState([])
     const [weather, setWeather] = useState({});
     const { currentUser, logout } = useAuth()
     const history = useHistory()
@@ -48,14 +50,25 @@ export default function UserDashboard() {
         setHomeT(res.homeTown)
     })
 
+    //gets the users events in their calendar and displays the events on their profile
+    // helperFunctions.firestoreFunctions("get_all_events", currentUser.uid)
+    // .then(res => {
+    //     res.forEach(document => {
+    //         console.log(document.id, '=>', document.data());
+    //         //setUserEvents(userEvents => [...userEvents, document.data()])
+    //     });
+    //   })
+
+
+
     //gets weather based on the users hometown and displays it on profile
     useEffect(() => {
         fetch(`${weatherAPI.base}weather?q=${homeT}&units=metric&APPID=${weatherAPI.key}`)
         .then(res => res.json())
         .then(result => {
         setWeather(result);
-        console.log(result)
-        });
+        //console.log(result) //ensures getting correct user weather info
+        })
       }, [homeT]);
 
     
@@ -71,11 +84,14 @@ export default function UserDashboard() {
                     <Link to="/update-profile" className="btn btn-primary w-100 mt-3">Edit Profile</Link>
                 </Card.Body>
             </Card>
+
+        
             <div className="w-100 text-center mt-2">
                 <Button variant="link" onClick={handleLogout}>Log Out</Button>
             </div>
 
-            {(typeof weather.main != "undefined") ? (
+            <CalendarCards id={currentUser.uid}/>
+            {/* {(typeof weather.main != "undefined") ? (
                 <div>
                 <div className="location-box">
                     <div className="location">{weather.name}, {weather.sys.country} </div>
@@ -87,7 +103,7 @@ export default function UserDashboard() {
                     <div className="weather">{weather.weather[0].main}</div>
                 </div>
                 </div>
-            ) : ('')}
+            ) : ('')} */}
         </>
     )
 }
