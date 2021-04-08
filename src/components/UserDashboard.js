@@ -86,13 +86,11 @@ export default function UserDashboard() {
             </Card>
 
         
-            <div className="w-100 text-center mt-2">
-                <Button variant="link" onClick={handleLogout}>Log Out</Button>
-            </div>
 
+            <h1 className="text-center mb-4">Upcoming Events</h1>
             <CalendarCards id={currentUser.uid}/>
 
-            {/* {(typeof weather.main != "undefined") ? (
+            {(typeof weather.main != "undefined") ? (
                 <div>
                 <div className="location-box">
                     <div className="location">{weather.name}, {weather.sys.country} </div>
@@ -104,7 +102,12 @@ export default function UserDashboard() {
                     <div className="weather">{weather.weather[0].main}</div>
                 </div>
                 </div>
-            ) : ('')} */}
+            ) : ('')}
+
+            {/* Logout button */}
+            <div className="w-100 text-center mt-2">
+                <Button variant="link" onClick={handleLogout}>Log Out</Button>
+            </div>
         </>
     )
 }
