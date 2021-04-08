@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
 
             helperFunctions.firestoreFunctions("create_new_user", userData)
 
-            // // How to add new subcollection
+            // How to add new subcollection
             // await db.collection('users').doc(data.user.uid).collection("userEvents").add({
             //     name: "picnic",
             //     time: "3 pm",

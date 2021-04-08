@@ -91,6 +91,7 @@ export default function UserDashboard() {
             </div>
 
             <CalendarCards id={currentUser.uid}/>
+
             {/* {(typeof weather.main != "undefined") ? (
                 <div>
                 <div className="location-box">
