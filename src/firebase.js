@@ -19,8 +19,20 @@ export const db = firebase.firestore()
 const helperFunctions = {
     firestoreFunctions: async function (nameOfFunction, data) {
 
+        //holds info for adding hometowns upon account creation
         var userInfo = {
             homeTown: data.userHometown
+        }
+
+        var addEventUserId = {
+            userIdInfo : data.specificUserId 
+        }
+
+        //holds info for adding events
+        var eventInfo = {
+            eventDateTime: data.dateTimeInfo,
+            eventName: data.eventTitle,
+            isOutdoors: data.eventOutdoor
         }
         
         switch(nameOfFunction){
@@ -44,10 +56,10 @@ const helperFunctions = {
             case "get_all_events":
                 return await db.collection('users').doc(data).collection('userEvents').get() //gets all db info for that user
                     
-            // //creates new event in the db for the user
-            // case "add_new_userevent":
-            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
-            //     break;
+            //creates new event in the db for the user
+            case "add_new_event":
+                await db.collection('users').doc(addEventUserId.userIdInfo).collection('userEvents').add(eventInfo)
+                break;
 
             // //allows user to update info about a certain event
             // case "update_userevent":
