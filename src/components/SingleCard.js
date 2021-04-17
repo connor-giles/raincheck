@@ -1,12 +1,11 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid'
 import firebase from 'firebase/app'
+import { Link, useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles({
     gridContainer: {
@@ -55,6 +54,21 @@ export default function SingleCard({props}) {
                         <Typography align="center">
                             {formatAMPM(timeObject)}
                         </Typography>
+                        <div className="w-100 text-center mt-3">
+                            <Link to={{
+                                pathname:"/delete-event", 
+                                // props:{
+                                //     userId: currentUser.uid
+                                // }
+                            }} >Delete</Link>
+                            &nbsp;&nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;&nbsp;  
+                            <Link to={{
+                                pathname:"/update-event", 
+                                // props:{
+                                //     userId: currentUser.uid
+                                // }
+                            }} >Update</Link>
+                        </div>
                     </CardContent>
                 </Card>
             </Grid>
