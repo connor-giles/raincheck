@@ -67,7 +67,9 @@ export default function SingleCard({props}) {
                                 pathname:"/update-event", 
                                 props:{
                                     userId: props.userId,
-                                    eventName: props.eventName
+                                    eventName: props.eventName,
+                                    eventDateTime: props.userTime,
+                                    outdoors: props.outdoors
                                 }
                             }} >Update</Link>
                         </div>

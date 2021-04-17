@@ -70,7 +70,7 @@ const helperFunctions = {
                     });
                   });
                 break;
-                
+
             // //allows user to update info about a certain event
             // case "update_userevent":
             //     await db.collection('users').doc(data.data.user.uid).set(userInfo)

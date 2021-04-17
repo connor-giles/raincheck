@@ -20,6 +20,7 @@ export default function CalendarCards(id) {
                     var props = {
                         eventName: doc.data().eventName,
                         userTime: doc.data().eventDateTime,
+                        outdoors: doc.data().isOutdoors,
                         userId: id.id
                     }
                     return(
