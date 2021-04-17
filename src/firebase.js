@@ -61,15 +61,21 @@ const helperFunctions = {
                 await db.collection('users').doc(addEventUserId.userIdInfo).collection('userEvents').add(eventInfo)
                 break;
 
+            // //allows user to delete an event
+            case "delete_event":
+                const toBeDeleted = db.collection('users').doc(data.specificUserId).collection('userEvents').where("eventName", "==", data.eventTitle)
+                toBeDeleted.get().then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                      doc.ref.delete();
+                    });
+                  });
+                break;
+                
             // //allows user to update info about a certain event
             // case "update_userevent":
             //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
             //     break;
 
-            // //allows user to delete an event
-            // case "delete_userevent":
-            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
-            //     break;
             
                 
             default:

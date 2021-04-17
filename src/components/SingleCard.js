@@ -57,16 +57,18 @@ export default function SingleCard({props}) {
                         <div className="w-100 text-center mt-3">
                             <Link to={{
                                 pathname:"/delete-event", 
-                                // props:{
-                                //     userId: currentUser.uid
-                                // }
+                                props:{
+                                    userId: props.userId,
+                                    eventName: props.eventName
+                                }
                             }} >Delete</Link>
                             &nbsp;&nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;&nbsp;  
                             <Link to={{
                                 pathname:"/update-event", 
-                                // props:{
-                                //     userId: currentUser.uid
-                                // }
+                                props:{
+                                    userId: props.userId,
+                                    eventName: props.eventName
+                                }
                             }} >Update</Link>
                         </div>
                     </CardContent>

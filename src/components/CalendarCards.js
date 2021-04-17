@@ -19,7 +19,8 @@ export default function CalendarCards(id) {
                 {eventIDs.docs.map((doc) => {
                     var props = {
                         eventName: doc.data().eventName,
-                        userTime: doc.data().eventDateTime
+                        userTime: doc.data().eventDateTime,
+                        userId: id.id
                     }
                     return(
                         <SingleCard props={props}/>
