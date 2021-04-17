@@ -7,6 +7,7 @@ import { Button, Checkbox, FormControlLabel } from '@material-ui/core';
 import firebase from 'firebase/app'
 import helperFunctions from '../firebase.js'
 import { useHistory } from "react-router-dom"
+import moment from 'moment';
 
 
 const useStyles = makeStyles({
@@ -30,31 +31,32 @@ export default function AddEvent(props) {
         specificUserId: props.location.props.userId
     }
 
+    let temp = new Date(props.location.props.eventDateTime.seconds * 1000 + props.location.props.eventDateTime.nanoseconds/1000000)
+    let tempDateTime = moment(temp)
+
+    //console.log(temp.getFullYear())
+
     let oldEventInfo = {
         eventTitle: props.location.props.eventName,
-        eventTime: props.location.props.eventDateTime,
+        eventTime: tempDateTime,
         outdoors: props.location.props.outdoors
     }
-
-    console.log(oldEventInfo)
 
     const [eventName, setEventName] = useState(oldEventInfo.eventTitle) //handles user event name entry
     
     //states for all parts of date/time info
-    const [eventYear, setEventYear] = useState()
-    const [eventMonth, setEventMonth] = useState()
-    const [eventDay, setEventDay] = useState()
-    const [eventHour, setEventHour] = useState()
-    const [eventMinute, setEventMinute] = useState()
-    const [eventSecond, setEventSecond] = useState()
+    const [eventYear, setEventYear] = useState(temp.getFullYear())
+    const [eventMonth, setEventMonth] = useState(temp.getMonth() + 1)
+    const [eventDay, setEventDay] = useState(temp.getDay())
+    const [eventHour, setEventHour] = useState(temp.getHours())
+    const [eventMinute, setEventMinute] = useState(temp.getMinutes())
+    const [eventSecond, setEventSecond] = useState(temp.getSeconds())
     
     //handles indoors/outdoors
-    const [isOutdoors, setIsOutdoors] = useState(false)
+    const [isOutdoors, setIsOutdoors] = useState(oldEventInfo.outdoors)
     const toggle = () => setIsOutdoors(!isOutdoors);
 
     const history = useHistory()
-
-    //console.log(eventName)
 
     function onChange(value, dateString) {
         var dateTimeContent = dateString.split(" ");
@@ -73,13 +75,24 @@ export default function AddEvent(props) {
     }
     
     function sendUpdateInfoToDb(){
-        
+        const dateToAdd = new Date(eventYear, (eventMonth - 1), eventDay, eventHour, eventMinute, eventSecond)
+        const fireStoreDateTime = firebase.firestore.Timestamp.fromDate(dateToAdd);
+
+        let updateInfoPassed = {
+            eventTitle: eventName,
+            oldEventTitle: oldEventInfo.eventTitle,
+            eventOutdoor: isOutdoors,
+            dateTimeInfo: fireStoreDateTime, 
+            specificUserId: props.location.props.userId
+        }
+           
+        helperFunctions.firestoreFunctions("update_event", updateInfoPassed)
     }
     
     return(
         <div className={classes.container}>
 
-        <h1 className={classes.title}>Add Event Title Below</h1>
+        <h1 className={classes.title}>Update Event Title Below</h1>
         <form noValidate autoComplete="off">
             <TextField onChange={(e) => setEventName(e.target.value)} id="filled-basic" defaultValue={eventName} label="Enter Event Name" variant="filled" color="secondary"/>
         </form>
@@ -88,11 +101,11 @@ export default function AddEvent(props) {
         <h1 className={classes.title}>Update Event Infomation Below</h1>
         <div>
             <Space direction="vertical" size={12}>
-                <DatePicker showTime onChange={onChange} />
+                <DatePicker defaultValue={tempDateTime} showTime onChange={onChange} />
             </Space>
         </div>
 
-        <h1 className={classes.title}>Event Location</h1>
+        <h1 className={classes.title}>Update Event Location</h1>
         <FormControlLabel
             control={
                 <Checkbox
@@ -108,10 +121,19 @@ export default function AddEvent(props) {
         <Button variant="outlined" color="primary"
         onClick={() => {
             sendUpdateInfoToDb()
-            //history.push("/userdashboard")
+            history.push("/userdashboard")
         }}>
             Submit Updated Info
         </Button>
+
+        <Button variant="outlined" color="primary" onClick={() => {history.push("/userdashboard") }}>
+            Cancel
+        </Button>
+
+        <br></br>
+        <br></br>
+        <br></br>
+        <h1 className={classes.title} color="red">*** Be Sure to Refresh User Dashboard to See Updated Event ***</h1>
 
         </div>
     )

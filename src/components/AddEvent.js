@@ -107,6 +107,10 @@ export default function AddEvent(props) {
             Submit Event Info
         </Button>
 
+        <Button variant="outlined" color="primary" onClick={() => {history.push("/userdashboard") }}>
+            Cancel
+        </Button>
+
         </div>
     )
 

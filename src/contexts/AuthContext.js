@@ -21,30 +21,12 @@ export function AuthProvider({ children }) {
         .then(async function(data){
 
             var userData = {
+                userEmail: email,
                 data: data,
                 userHometown: hometown
             }
 
             helperFunctions.firestoreFunctions("create_new_user", userData)
-
-            // // How to add new subcollection
-            // await db.collection('users').doc(data.user.uid).collection("userEvents").add({
-            //     name: "picnic",
-            //     time: "3 pm",
-            //     outdoor: true
-            // })
-            // await db.collection('users').doc(data.user.uid).collection("userEvents").add({
-            //     name: "basketball",
-            //     time: "5 pm",
-            //     outdoor: false
-            // })
-            
-            // // How to query data
-            // const ref = db.collection('users').doc(data.user.uid).collection("userEvents");
-            // const snapshot = await ref.where('name', '==', 'basketball').get();
-            // snapshot.forEach(doc => {
-            //     console.log(doc.id, '=>', doc.data());
-            // });
         })
     }
 

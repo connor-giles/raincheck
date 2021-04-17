@@ -24,15 +24,17 @@ const helperFunctions = {
             homeTown: data.userHometown
         }
 
-        var addEventUserId = {
-            userIdInfo : data.specificUserId 
-        }
-
         //holds info for adding events
         var eventInfo = {
             eventDateTime: data.dateTimeInfo,
             eventName: data.eventTitle,
             isOutdoors: data.eventOutdoor
+        }
+
+        let updateInfo = {
+            eventName: data.eventTitle,
+            eventDateTime: data.dateTimeInfo, 
+            isOutdoors: data.eventOutdoor,
         }
         
         switch(nameOfFunction){
@@ -58,7 +60,7 @@ const helperFunctions = {
                     
             //creates new event in the db for the user
             case "add_new_event":
-                await db.collection('users').doc(addEventUserId.userIdInfo).collection('userEvents').add(eventInfo)
+                await db.collection('users').doc(data.specificUserId).collection('userEvents').add(eventInfo)
                 break;
 
             // //allows user to delete an event
@@ -71,13 +73,30 @@ const helperFunctions = {
                   });
                 break;
 
-            // //allows user to update info about a certain event
-            // case "update_userevent":
-            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
-            //     break;
-
-            
+            //allows user to update info about a certain event
+            case "update_event":
+                await db.collection('users').doc(data.specificUserId).collection('userEvents').where("eventName", "==", data.oldEventTitle).limit(1).get()
+                .then((query) => {  
+                    const docUpdate = query.docs[0];
+                    console.log(docUpdate.data())
+                    docUpdate.ref.update(
+                        {
+                            eventName: updateInfo.eventName,
+                            eventDateTime: updateInfo.eventDateTime,
+                            isOutdoors: updateInfo.isOutdoors
+                        });
+                });
+ 
                 
+                // await toBeUpdated.update(
+                //     {
+                //         eventName: updateInfo.eventName,
+                //         eventDateTime: updateInfo.eventDateTime,
+                //         isOutdoors: updateInfo.isOutdoors
+                //     }
+                // )
+                break;
+
             default:
                 console.log("Function not found")
                 break;
