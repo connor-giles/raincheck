@@ -14,6 +14,7 @@ export default function UserDashboard() {
     
     const[error, setError] = useState('')
     const[homeT, setHomeT] = useState('')
+    const[firstName, setFirstName] = useState('')
     const [weather, setWeather] = useState({});
     const { currentUser, logout } = useAuth()
     const history = useHistory()
@@ -44,9 +45,10 @@ export default function UserDashboard() {
     }
 
     //gets the users hometown from the database and displays it on their profile
-    helperFunctions.firestoreFunctions("get_user_hometown", currentUser.uid)
+    helperFunctions.firestoreFunctions("get_user_info", currentUser.uid)
     .then((res) => {
         setHomeT(res.homeTown)
+        setFirstName(res.firstName)
     })
 
     //gets weather based on the users hometown and displays it on profile
@@ -69,6 +71,8 @@ export default function UserDashboard() {
                     <strong>Email: </strong> {currentUser.email}
                     <br></br>
                     <strong>Hometown: </strong> {homeT}
+                    <br></br>
+                    <strong>First Name: </strong> {firstName}
                     <Link to="/update-profile" className="btn btn-primary w-100 mt-3">Edit Profile</Link>
                 </Card.Body>
             </Card>

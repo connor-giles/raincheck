@@ -21,7 +21,8 @@ const helperFunctions = {
 
         //holds info for adding hometowns upon account creation
         var userInfo = {
-            homeTown: data.userHometown
+            homeTown: data.userHometown,
+            firstName: data.firstName
         }
 
         //holds info for adding events
@@ -43,8 +44,8 @@ const helperFunctions = {
                 await db.collection('users').doc(data.data.user.uid).set(userInfo)
                 break;
 
-            //searches the db based on the user and returns the hometown to display on the profile page
-            case "get_user_hometown":
+            //searches the db based on the user and returns the user info (ht and fn) to display on the profile page
+            case "get_user_info":
                 const htdoc = await db.collection('users').doc(data).get()
                 return htdoc.data()
 
@@ -52,6 +53,12 @@ const helperFunctions = {
             case "update_hometown":
                 const updateDoc = db.collection('users').doc(data.user)
                 await updateDoc.update({homeTown: data.homeTownUpdate});
+                break;
+
+            //gives user ability to update first name on updateProfile page
+            case "update_firstname":
+                const updateFirstName = db.collection('users').doc(data.user)
+                await updateFirstName.update({firstName: data.firstNameUpdate});
                 break;
 
             //searches db for users events to display on profile
@@ -86,7 +93,6 @@ const helperFunctions = {
                             isOutdoors: updateInfo.isOutdoors
                         });
                 });
- 
                 
                 // await toBeUpdated.update(
                 //     {

@@ -12,6 +12,7 @@
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^12.6.2",
     "antd": "^4.15.1",
+    "autoprefixer": "^9.8.6",
     "bootstrap": "^4.6.0",
     "date-fns": "^2.21.1",
     "firebase": "^8.2.5",
