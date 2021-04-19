@@ -4,8 +4,8 @@ import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Grid from '@material-ui/core/Grid'
-import firebase from 'firebase/app'
-import { Link, useHistory } from 'react-router-dom'
+//import firebase from 'firebase/app'
+import { Link } from 'react-router-dom'
 
 const useStyles = makeStyles({
     gridContainer: {

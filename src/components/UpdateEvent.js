@@ -26,11 +26,6 @@ const useStyles = makeStyles({
 export default function AddEvent(props) {
     const classes = useStyles() //handles css stuff
 
-    let updateInfoPassed = {
-        eventTitle: props.location.props.eventName,
-        specificUserId: props.location.props.userId
-    }
-
     let temp = new Date(props.location.props.eventDateTime.seconds * 1000 + props.location.props.eventDateTime.nanoseconds/1000000)
     let tempDateTime = moment(temp)
 
