@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react'
 import { auth } from '../firebase.js'
+import helperFunctions from '../firebase.js'
 
 const AuthContext = React.createContext()
 
@@ -15,8 +16,18 @@ export function AuthProvider({ children }) {
     const [loading, setLoading] = useState(true)
 
     //creates a user based on their username and passsword to store into firebase
-    function signup(email, password) {
+    function signup(email, password, hometown) {
         return auth.createUserWithEmailAndPassword(email, password)
+        .then(async function(data){
+
+            var userData = {
+                userEmail: email,
+                data: data,
+                userHometown: hometown
+            }
+
+            helperFunctions.firestoreFunctions("create_new_user", userData)
+        })
     }
 
     function login(email, password) {

@@ -2,12 +2,14 @@ import React, {useRef, useState } from 'react'
 import { Card, Form, Button, Container, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from "react-router-dom"
+import helperFunctions from '../firebase.js'
 
 export default function UpdateProfile() {
 
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
+    const hometownRef = useRef()
     const { currentUser, updateEmail, updatePassword } = useAuth()
     const[error, setError] = useState('')
     const[loading, setLoading] = useState(false)
@@ -39,6 +41,16 @@ export default function UpdateProfile() {
             promises.push(updatePassword(passwordRef.current.value))
         }
 
+        //if a hometown was entered
+        if(hometownRef.current.value) {
+            var updateData = {
+                user: currentUser.uid,
+                homeTownUpdate: hometownRef.current.value
+            }
+
+            helperFunctions.firestoreFunctions("update_hometown", updateData)
+        }
+
         Promise.all(promises).then(() => {
             history.push('/userdashboard')
         }).catch(() => {
@@ -60,6 +72,10 @@ export default function UpdateProfile() {
                                     <Form.Group id="email">
                                         <Form.Label>Email</Form.Label>
                                         <Form.Control type="email" ref={emailRef} required defaultValue={currentUser.email} />
+                                    </Form.Group>
+                                    <Form.Group id="hometown">
+                                        <Form.Label>Hometown Update</Form.Label>
+                                        <Form.Control type="hometown" ref={hometownRef} placeholder="Leave blank to keep the same"/>
                                     </Form.Group>
                                     <Form.Group id="password">
                                         <Form.Label>Password</Form.Label>
