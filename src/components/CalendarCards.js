@@ -11,14 +11,17 @@ export default function CalendarCards(id) {
         })
     },[id.id])
 
+    
 
     if(Object.keys(eventIDs).length !== 0){ 
         return (
             <>
                 {eventIDs.docs.map((doc) => {
                     var props = {
-                        eventName: doc.data().name,
-                        userTime: doc.data().time
+                        eventName: doc.data().eventName,
+                        userTime: doc.data().eventDateTime,
+                        outdoors: doc.data().isOutdoors,
+                        userId: id.id
                     }
                     return(
                         <SingleCard props={props}/>

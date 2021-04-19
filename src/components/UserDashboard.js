@@ -14,7 +14,6 @@ export default function UserDashboard() {
     
     const[error, setError] = useState('')
     const[homeT, setHomeT] = useState('')
-    const[userEvents, setUserEvents] = useState([])
     const [weather, setWeather] = useState({});
     const { currentUser, logout } = useAuth()
     const history = useHistory()
@@ -50,17 +49,6 @@ export default function UserDashboard() {
         setHomeT(res.homeTown)
     })
 
-    //gets the users events in their calendar and displays the events on their profile
-    // helperFunctions.firestoreFunctions("get_all_events", currentUser.uid)
-    // .then(res => {
-    //     res.forEach(document => {
-    //         console.log(document.id, '=>', document.data());
-    //         //setUserEvents(userEvents => [...userEvents, document.data()])
-    //     });
-    //   })
-
-
-
     //gets weather based on the users hometown and displays it on profile
     useEffect(() => {
         fetch(`${weatherAPI.base}weather?q=${homeT}&units=metric&APPID=${weatherAPI.key}`)
@@ -85,10 +73,16 @@ export default function UserDashboard() {
                 </Card.Body>
             </Card>
 
-        
-
             <h1 className="text-center mb-4">Upcoming Events</h1>
             <CalendarCards id={currentUser.uid}/>
+            <div className="w-100 text-center mt-3">
+                <Link to={{
+                    pathname:"/add-event", 
+                    props:{
+                        userId: currentUser.uid
+                    }
+                }} >Add New Event</Link>
+            </div>
 
             {(typeof weather.main != "undefined") ? (
                 <div>

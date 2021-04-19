@@ -8,7 +8,9 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute.js'
 import ForgotPassword from './ForgotPassword.js'
 import UpdateProfile from './UpdateProfile.js'
-// import { db } from '../firebase.js'
+import AddEvent from './AddEvent.js'
+import DeleteEvent from './DeleteEvent.js'
+import UpdateEvent from './UpdateEvent.js'
 
 
 function App() {
@@ -24,6 +26,9 @@ function App() {
           <Route path="/login" component={Login} />
           <PrivateRoute path="/userdashboard" component={UserDashboard} />
           <PrivateRoute path="/update-profile" component={UpdateProfile} />
+          <PrivateRoute path="/add-event" component={AddEvent} />
+          <PrivateRoute path="/update-event" component={UpdateEvent} />
+          <PrivateRoute path="/delete-event" component={DeleteEvent} />
           <Route path="/forgot-password" component={ForgotPassword} />
         </Switch>
         

@@ -19,8 +19,22 @@ export const db = firebase.firestore()
 const helperFunctions = {
     firestoreFunctions: async function (nameOfFunction, data) {
 
+        //holds info for adding hometowns upon account creation
         var userInfo = {
             homeTown: data.userHometown
+        }
+
+        //holds info for adding events
+        var eventInfo = {
+            eventDateTime: data.dateTimeInfo,
+            eventName: data.eventTitle,
+            isOutdoors: data.eventOutdoor
+        }
+
+        let updateInfo = {
+            eventName: data.eventTitle,
+            eventDateTime: data.dateTimeInfo, 
+            isOutdoors: data.eventOutdoor,
         }
         
         switch(nameOfFunction){
@@ -44,22 +58,45 @@ const helperFunctions = {
             case "get_all_events":
                 return await db.collection('users').doc(data).collection('userEvents').get() //gets all db info for that user
                     
-            // //creates new event in the db for the user
-            // case "add_new_userevent":
-            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
-            //     break;
-
-            // //allows user to update info about a certain event
-            // case "update_userevent":
-            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
-            //     break;
+            //creates new event in the db for the user
+            case "add_new_event":
+                await db.collection('users').doc(data.specificUserId).collection('userEvents').add(eventInfo)
+                break;
 
             // //allows user to delete an event
-            // case "delete_userevent":
-            //     await db.collection('users').doc(data.data.user.uid).set(userInfo)
-            //     break;
-            
+            case "delete_event":
+                const toBeDeleted = db.collection('users').doc(data.specificUserId).collection('userEvents').where("eventName", "==", data.eventTitle)
+                toBeDeleted.get().then(function(querySnapshot) {
+                    querySnapshot.forEach(function(doc) {
+                      doc.ref.delete();
+                    });
+                  });
+                break;
+
+            //allows user to update info about a certain event
+            case "update_event":
+                await db.collection('users').doc(data.specificUserId).collection('userEvents').where("eventName", "==", data.oldEventTitle).limit(1).get()
+                .then((query) => {  
+                    const docUpdate = query.docs[0];
+                    console.log(docUpdate.data())
+                    docUpdate.ref.update(
+                        {
+                            eventName: updateInfo.eventName,
+                            eventDateTime: updateInfo.eventDateTime,
+                            isOutdoors: updateInfo.isOutdoors
+                        });
+                });
+ 
                 
+                // await toBeUpdated.update(
+                //     {
+                //         eventName: updateInfo.eventName,
+                //         eventDateTime: updateInfo.eventDateTime,
+                //         isOutdoors: updateInfo.isOutdoors
+                //     }
+                // )
+                break;
+
             default:
                 console.log("Function not found")
                 break;
