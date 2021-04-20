@@ -29,15 +29,18 @@ export default function AddEvent(props) {
     let temp = new Date(props.location.props.eventDateTime.seconds * 1000 + props.location.props.eventDateTime.nanoseconds/1000000)
     let tempDateTime = moment(temp)
 
-    //console.log(temp.getFullYear())
+    
 
     let oldEventInfo = {
         eventTitle: props.location.props.eventName,
         eventTime: tempDateTime,
-        outdoors: props.location.props.outdoors
+        outdoors: props.location.props.outdoors,
+        location: props.location.props.location
     }
 
     const [eventName, setEventName] = useState(oldEventInfo.eventTitle) //handles user event name entry
+    const [updatedLocation, setUpdatedLocation] = useState(oldEventInfo.location) //handles user event name entry
+    
     
     //states for all parts of date/time info
     const [eventYear, setEventYear] = useState(temp.getFullYear())
@@ -78,7 +81,8 @@ export default function AddEvent(props) {
             oldEventTitle: oldEventInfo.eventTitle,
             eventOutdoor: isOutdoors,
             dateTimeInfo: fireStoreDateTime, 
-            specificUserId: props.location.props.userId
+            specificUserId: props.location.props.userId, 
+            location: updatedLocation
         }
            
         helperFunctions.firestoreFunctions("update_event", updateInfoPassed)
@@ -101,6 +105,9 @@ export default function AddEvent(props) {
         </div>
 
         <h1 className={classes.title}>Update Event Location</h1>
+        <form noValidate autoComplete="off">
+            <TextField onChange={(e) => setUpdatedLocation(e.target.value)} id="filled-basic" defaultValue={updatedLocation} label="Enter Event Name" variant="filled" color="secondary"/>
+        </form>
         <FormControlLabel
             control={
                 <Checkbox

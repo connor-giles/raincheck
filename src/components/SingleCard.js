@@ -46,13 +46,16 @@ export default function SingleCard({props}) {
                 <Card style={{backgroundColor: "lightblue"}}>
                     <CardContent>
                         <Typography variant="h5" component="h2" align="center">
-                            {props.eventName}
+                            <b>{props.eventName}</b>
                         </Typography>
                         <Typography align="center">
                             {stringDate}
                         </Typography>
                         <Typography align="center">
                             {formatAMPM(timeObject)}
+                        </Typography>
+                        <Typography align="center">
+                            {props.location}
                         </Typography>
                         <div className="w-100 text-center mt-3">
                             <Link to={{
@@ -69,7 +72,8 @@ export default function SingleCard({props}) {
                                     userId: props.userId,
                                     eventName: props.eventName,
                                     eventDateTime: props.userTime,
-                                    outdoors: props.outdoors
+                                    outdoors: props.outdoors,
+                                    location: props.location
                                 }
                             }} >Update</Link>
                         </div>

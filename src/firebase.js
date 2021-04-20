@@ -28,6 +28,7 @@ const helperFunctions = {
         //holds info for adding events
         var eventInfo = {
             eventDateTime: data.dateTimeInfo,
+            location: data.passedEventLocation,
             eventName: data.eventTitle,
             isOutdoors: data.eventOutdoor
         }
@@ -36,6 +37,7 @@ const helperFunctions = {
             eventName: data.eventTitle,
             eventDateTime: data.dateTimeInfo, 
             isOutdoors: data.eventOutdoor,
+            location: data.location
         }
         
         switch(nameOfFunction){
@@ -90,17 +92,10 @@ const helperFunctions = {
                         {
                             eventName: updateInfo.eventName,
                             eventDateTime: updateInfo.eventDateTime,
-                            isOutdoors: updateInfo.isOutdoors
+                            isOutdoors: updateInfo.isOutdoors,
+                            location: updateInfo.location
                         });
                 });
-                
-                // await toBeUpdated.update(
-                //     {
-                //         eventName: updateInfo.eventName,
-                //         eventDateTime: updateInfo.eventDateTime,
-                //         isOutdoors: updateInfo.isOutdoors
-                //     }
-                // )
                 break;
 
             default:

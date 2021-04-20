@@ -40,3 +40,7 @@ function App() {
 }
 
 export default App;
+
+//TODO:
+//1. Maybe fix refreshing with Update and Delete
+//2. Fix when hometown is fetched (add await)

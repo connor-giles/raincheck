@@ -25,6 +25,7 @@ const useStyles = makeStyles({
 export default function AddEvent(props) {
     const classes = useStyles() //handles css stuff
     const [eventName, setEventName] = useState('') //handles user event name entry
+    const [eventLocation, setEventLocation] = useState('') //handles user event location entry
     
     //states for all parts of date/time info
     const [eventYear, setEventYear] = useState()
@@ -63,6 +64,7 @@ export default function AddEvent(props) {
         var eventInfoPassed = {
             eventTitle: eventName,
             eventOutdoor: isOutdoors,
+            passedEventLocation: eventLocation,
             dateTimeInfo: fireStoreDateTime, 
             specificUserId: props.location.props.userId
         }
@@ -87,6 +89,9 @@ export default function AddEvent(props) {
         </div>
 
         <h1 className={classes.title}>Event Location</h1>
+        <form noValidate autoComplete="off">
+            <TextField onChange={(e) => setEventLocation(e.target.value)} id="filled-basic" label="Enter Event Location (City)" variant="filled" color="secondary"/>
+        </form>
         <FormControlLabel
             control={
                 <Checkbox
