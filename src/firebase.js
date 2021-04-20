@@ -30,7 +30,8 @@ const helperFunctions = {
             eventDateTime: data.dateTimeInfo,
             location: data.passedEventLocation,
             eventName: data.eventTitle,
-            isOutdoors: data.eventOutdoor
+            isOutdoors: data.eventOutdoor,
+            hasBeenChecked: false
         }
 
         let updateInfo = {

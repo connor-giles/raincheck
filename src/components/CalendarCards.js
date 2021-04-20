@@ -11,9 +11,6 @@ export default function CalendarCards(id) {
         })
     },[id.id])
 
-    
-    
-
     if(Object.keys(eventIDs).length !== 0){ 
         return (
             <>

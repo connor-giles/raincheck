@@ -23,13 +23,11 @@ const useStyles = makeStyles({
     }
 })
 
-export default function AddEvent(props) {
+export default function UpdateEvent(props) {
     const classes = useStyles() //handles css stuff
 
     let temp = new Date(props.location.props.eventDateTime.seconds * 1000 + props.location.props.eventDateTime.nanoseconds/1000000)
     let tempDateTime = moment(temp)
-
-    
 
     let oldEventInfo = {
         eventTitle: props.location.props.eventName,
@@ -45,7 +43,7 @@ export default function AddEvent(props) {
     //states for all parts of date/time info
     const [eventYear, setEventYear] = useState(temp.getFullYear())
     const [eventMonth, setEventMonth] = useState(temp.getMonth() + 1)
-    const [eventDay, setEventDay] = useState(temp.getDay())
+    const [eventDay, setEventDay] = useState(temp.getDate())
     const [eventHour, setEventHour] = useState(temp.getHours())
     const [eventMinute, setEventMinute] = useState(temp.getMinutes())
     const [eventSecond, setEventSecond] = useState(temp.getSeconds())
@@ -72,8 +70,16 @@ export default function AddEvent(props) {
         setEventSecond(parseInt(timeContent[2]))
     }
     
-    function sendUpdateInfoToDb(){
+    function sendUpdateInfoToDb() {
+        console.log("Year: " + eventYear)
+        console.log("Month: " + eventMonth)
+        console.log("Day: " + eventDay)
+        console.log("Hour: " + eventHour)
+        console.log("Minute: " + eventMinute)
+        console.log("Second: " + eventSecond)
         const dateToAdd = new Date(eventYear, (eventMonth - 1), eventDay, eventHour, eventMinute, eventSecond)
+
+        console.log("DATE BEING SENT TO DB: " + dateToAdd)
         const fireStoreDateTime = firebase.firestore.Timestamp.fromDate(dateToAdd);
 
         let updateInfoPassed = {
@@ -93,7 +99,7 @@ export default function AddEvent(props) {
 
         <h1 className={classes.title}>Update Event Title Below</h1>
         <form noValidate autoComplete="off">
-            <TextField onChange={(e) => setEventName(e.target.value)} id="filled-basic" defaultValue={eventName} label="Enter Event Name" variant="filled" color="secondary"/>
+            <TextField onChange={(e) => setEventName(e.target.value)} id="filled-basic" defaultValue={eventName} label="Enter Updated Name" variant="filled" color="secondary"/>
         </form>
 
 
@@ -106,7 +112,7 @@ export default function AddEvent(props) {
 
         <h1 className={classes.title}>Update Event Location</h1>
         <form noValidate autoComplete="off">
-            <TextField onChange={(e) => setUpdatedLocation(e.target.value)} id="filled-basic" defaultValue={updatedLocation} label="Enter Event Name" variant="filled" color="secondary"/>
+            <TextField onChange={(e) => setUpdatedLocation(e.target.value)} id="filled-basic" defaultValue={updatedLocation} label="Enter Updated Location" variant="filled" color="secondary"/>
         </form>
         <FormControlLabel
             control={

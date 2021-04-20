@@ -4,6 +4,11 @@ import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from 'react-router-dom'
 import helperFunctions from '../firebase.js'
 import CalendarCards from './CalendarCards'
+import emailjs from 'emailjs-com'
+
+//test firebase imports
+import firebase from 'firebase/app'
+const db = firebase.firestore()
 
 const weatherAPI = {
     key: "2a57815a865fa327116a8e960e80aa9e",
@@ -16,8 +21,56 @@ export default function UserDashboard() {
     const[homeT, setHomeT] = useState('')
     const[firstName, setFirstName] = useState('')
     const [weather, setWeather] = useState({});
+    const [emailWeather, setEmailWeather] = useState({});
     const { currentUser, logout } = useAuth()
     const history = useHistory()
+
+    function testForecast() {
+        fetch(`${weatherAPI.base}weather?q=${homeT}&units=metric&APPID=${weatherAPI.key}`)
+        .then(res => res.json())
+        .then(result => {
+        setWeather(result);
+            console.log(result) //ensures getting correct user weather info
+        })
+    }
+
+    //Handles main function of app, which is checking weather with calendar to send email notifications
+    function sendEmail(){
+
+        //gets weather info
+        // fetch(`${weatherAPI.base}weather?q=${PUT EVENT LOCATION HERE}&units=metric&APPID=${weatherAPI.key}`)
+        // .then(res => res.json())
+        // .then(result => {
+        // setWeather(result);
+        // //console.log(result) //ensures getting correct user weather info
+        // })
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        // let templateParams = {
+        //     usersName: 'Connor',
+        //     eventName: 'Basketball',
+        //     eventTime: "12 o'clock",
+        //     eventDay: 'April 30th',
+        //     eventLocation: "Orlando",
+        //     weatherIssue: "Heavy Precipitation",
+        //     teamName : 'The Raincheck Team',
+        //     email: 'connor.giles@ufl.edu'
+        // }
+
+        // emailjs.send('service_9cc3g3w', 'template_bysh0kp', templateParams, 'user_gRwkODYoHmZeIXphrdLjY')
+        // .then(function(response) {
+        // console.log('SUCCESS!', response.status, response.text);
+        // }, function(error) {
+        // console.log('FAILED...', error);
+        // });
+    }
 
     //builds the date info for the user dashboard
     const dateBuilder = (d) => {
@@ -59,7 +112,83 @@ export default function UserDashboard() {
         setWeather(result);
         //console.log(result) //ensures getting correct user weather info
         })
-      }, [homeT]);
+    }, [homeT]);
+
+    // used to check events in db every 10 mins
+    // useEffect(() => {
+    // const interval = setInterval(() => {
+    //     //code to run everytime the interval hits
+    //     //gets events from db
+    //     async function getEvents() {
+    //         var eventArray = []
+    //         //get all users events
+    //         return db.collection('users').doc(currentUser.uid).collection('userEvents').get()
+    //         .then(querySnapshot => {
+    //             //if there are no events for the user
+    //             if(querySnapshot.empty) {
+    //                 console.log('No matching documents.')
+    //                 return
+    //             } else {
+    //                 querySnapshot.forEach(doc => {
+    //                     if (!doc.data().hasBeenChecked) {
+    //                         var eventStartTime = new Date(doc.data().eventDateTime.seconds * 1000 + doc.data().eventDateTime.nanoseconds/1000000)
+    //                         var currentDateTime = new Date() //current time
+    //                         var diffHours = Math.abs(eventStartTime - currentDateTime) / 36e5 //calculates how many hours until event start
+    //                         //console.log("Difference in hours: " + diffHours)
+    //                         if (diffHours < 2) {
+    //                             eventArray.push(doc.data())
+    //                         }
+    //                     }
+    //                 });
+    //                 return eventArray
+    //             }
+    //         });
+    //     }
+    //     //this function call will contain all events that start in 2 hours or less to be handled
+    //     getEvents().then(result => {
+            
+    //         //if there are events in users calendar of any kind
+    //         if (result !== undefined) {
+    //             console.log(result)
+    //             result.forEach(event => {
+    //                 console.log(event)
+                    
+    //                 if(event !== undefined) {
+    //                     //console.log("we have events starting in < 2 hours") //returns undefined if no docs found above
+    //                     //console.log(result)
+        
+    //                     //gets weather info
+    //                     // fetch(`${weatherAPI.base}weather?q=${PUT EVENT LOCATION VARIABLE HERE}&units=metric&APPID=${weatherAPI.key}`)
+    //                     // .then(res => res.json())
+    //                     // .then(result => {
+    //                     //     setEmailWeather(result);
+        
+    //                     // if (emailWeather.weather[0].main === "Snow") {
+    //                     //     //do snow stuff
+    //                     // } else if (emailWeather.weather[0].main === "Rain") {
+    //                     //     //do rain stuff
+    //                     // } else if (Math.round(emailWeather.main.temp * 9 / 5 + 32) > 90) {
+    //                     //     //do extreme heat stuff
+    //                     // } else {
+    //                     //     //do something else? nothing?
+    //                     // }
+        
+    //                     //if (need to send email ) {
+    //                     //    sendEmail(params)
+    //                     //}
+        
+    //                 }
+    //             })
+    //         }
+
+            
+
+            
+    //     })
+        
+    // }, 5000);
+    // return () => clearInterval(interval);
+    // }, []);
 
     
     return (
@@ -105,6 +234,12 @@ export default function UserDashboard() {
             {/* Logout button */}
             <div className="w-100 text-center mt-2">
                 <Button variant="link" onClick={handleLogout}>Log Out</Button>
+            </div>
+
+
+            {/* email button */}
+            <div className="w-100 text-center mt-2">
+                <Button variant="link" onClick={testForecast}>Send Email</Button>
             </div>
         </>
     )
