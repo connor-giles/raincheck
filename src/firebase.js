@@ -99,6 +99,19 @@ const helperFunctions = {
                 });
                 break;
 
+            //allows user to update info about a certain event
+            case "update_check":
+                await db.collection('users').doc(data.specificUserId).collection('userEvents').where("eventName", "==", data.eventTitle).limit(1).get()
+                .then((query) => {  
+                    const docUpdate = query.docs[0];
+                    console.log(docUpdate.data())
+                    docUpdate.ref.update(
+                        {
+                            hasBeenChecked: true
+                        });
+                });
+                break;
+
             default:
                 console.log("Function not found")
                 break;

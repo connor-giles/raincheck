@@ -19,57 +19,43 @@ export default function UserDashboard() {
     
     const[error, setError] = useState('')
     const[homeT, setHomeT] = useState('')
-    const[firstName, setFirstName] = useState('')
+    const[firstName, setFirstName] = useState('Raincheck User')
     const [weather, setWeather] = useState({});
-    const [emailWeather, setEmailWeather] = useState({});
     const { currentUser, logout } = useAuth()
     const history = useHistory()
 
-    function testForecast() {
-        fetch(`${weatherAPI.base}weather?q=${homeT}&units=metric&APPID=${weatherAPI.key}`)
-        .then(res => res.json())
-        .then(result => {
-        setWeather(result);
-            console.log(result) //ensures getting correct user weather info
-        })
+    //handles time creation
+    function formatAMPM(date) {
+        var hours = date.getHours();
+        var minutes = date.getMinutes();
+        var ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12; // the hour '0' should be '12'
+        minutes = minutes < 10 ? '0'+minutes : minutes;
+        var strTime = hours + ':' + minutes + ' ' + ampm;
+        return strTime;
     }
 
     //Handles main function of app, which is checking weather with calendar to send email notifications
-    function sendEmail(){
+    function sendEmail(passedInParams) {
 
-        //gets weather info
-        // fetch(`${weatherAPI.base}weather?q=${PUT EVENT LOCATION HERE}&units=metric&APPID=${weatherAPI.key}`)
-        // .then(res => res.json())
-        // .then(result => {
-        // setWeather(result);
-        // //console.log(result) //ensures getting correct user weather info
-        // })
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        // let templateParams = {
-        //     usersName: 'Connor',
-        //     eventName: 'Basketball',
-        //     eventTime: "12 o'clock",
-        //     eventDay: 'April 30th',
-        //     eventLocation: "Orlando",
-        //     weatherIssue: "Heavy Precipitation",
-        //     teamName : 'The Raincheck Team',
-        //     email: 'connor.giles@ufl.edu'
-        // }
+        let templateParams = {
+            usersName: firstName,
+            eventName: passedInParams.eventName,
+            eventTime: passedInParams.eventTime,
+            eventDay: passedInParams.eventDay,
+            eventLocation: passedInParams.eventLocation,
+            weatherIssue: passedInParams.weatherIssue,
+            teamName : 'The Raincheck Team',
+            email: currentUser.email,
+        }
 
-        // emailjs.send('service_9cc3g3w', 'template_bysh0kp', templateParams, 'user_gRwkODYoHmZeIXphrdLjY')
-        // .then(function(response) {
-        // console.log('SUCCESS!', response.status, response.text);
-        // }, function(error) {
-        // console.log('FAILED...', error);
-        // });
+        emailjs.send('service_9cc3g3w', 'template_bysh0kp', templateParams, 'user_gRwkODYoHmZeIXphrdLjY')
+        .then(function(response) {
+        console.log('SUCCESS!', response.status, response.text);
+        }, function(error) {
+        console.log('FAILED...', error);
+        });
     }
 
     //builds the date info for the user dashboard
@@ -127,10 +113,10 @@ export default function UserDashboard() {
     //             //if there are no events for the user
     //             if(querySnapshot.empty) {
     //                 console.log('No matching documents.')
-    //                 return
+    //                 return eventArray
     //             } else {
     //                 querySnapshot.forEach(doc => {
-    //                     if (!doc.data().hasBeenChecked) {
+    //                     if (!doc.data().hasBeenChecked && doc.data().isOutdoors) {
     //                         var eventStartTime = new Date(doc.data().eventDateTime.seconds * 1000 + doc.data().eventDateTime.nanoseconds/1000000)
     //                         var currentDateTime = new Date() //current time
     //                         var diffHours = Math.abs(eventStartTime - currentDateTime) / 36e5 //calculates how many hours until event start
@@ -146,47 +132,76 @@ export default function UserDashboard() {
     //     }
     //     //this function call will contain all events that start in 2 hours or less to be handled
     //     getEvents().then(result => {
+
             
-    //         //if there are events in users calendar of any kind
-    //         if (result !== undefined) {
-    //             console.log(result)
+            
+    //         //if there are events in less than 2 hours
+    //         if (result.length > 0) {
+                
+                
+    //             //examine each event coming up
     //             result.forEach(event => {
-    //                 console.log(event)
+    //                 let needToSendEmail = false
+    //                 let weatherIssue = ''
                     
-    //                 if(event !== undefined) {
-    //                     //console.log("we have events starting in < 2 hours") //returns undefined if no docs found above
-    //                     //console.log(result)
-        
-    //                     //gets weather info
-    //                     // fetch(`${weatherAPI.base}weather?q=${PUT EVENT LOCATION VARIABLE HERE}&units=metric&APPID=${weatherAPI.key}`)
-    //                     // .then(res => res.json())
-    //                     // .then(result => {
-    //                     //     setEmailWeather(result);
-        
-    //                     // if (emailWeather.weather[0].main === "Snow") {
-    //                     //     //do snow stuff
-    //                     // } else if (emailWeather.weather[0].main === "Rain") {
-    //                     //     //do rain stuff
-    //                     // } else if (Math.round(emailWeather.main.temp * 9 / 5 + 32) > 90) {
-    //                     //     //do extreme heat stuff
-    //                     // } else {
-    //                     //     //do something else? nothing?
-    //                     // }
-        
-    //                     //if (need to send email ) {
-    //                     //    sendEmail(params)
-    //                     //}
-        
-    //                 }
+    //                 // //gets weather info
+    //                 fetch(`${weatherAPI.base}weather?q=${event.location}&units=metric&APPID=${weatherAPI.key}`)
+    //                 .then(res => res.json())
+    //                 .then(weatherResult => {
+                        
+    //                     //console.log(weatherResult)
+                        
+    //                     if (weatherResult.weather[0].main === "Snow") {
+    //                         needToSendEmail = true
+    //                         weatherIssue = "Potential Snowfall"
+    //                     } else if (weatherResult.weather[0].main === "Rain") {
+    //                         needToSendEmail = true
+    //                         weatherIssue = "Potential Rainfall"
+    //                     } else if (Math.round(weatherResult.main.temp * 9 / 5 + 32) > 90) {
+    //                         needToSendEmail = true
+    //                         weatherIssue = "Extreme Heat"
+    //                     } else {
+    //                         //do something else? nothing?
+    //                     }
+                        
+    //                     if (needToSendEmail) {
+
+    //                         //month names for building strings
+    //                         const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+    //                         const dayNames= ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    //                         //handles date creation)
+    //                         let jsDateObj = new Date(event.eventDateTime.seconds * 1000 + event.eventDateTime.nanoseconds/1000000)
+    //                         var dayNameInfo = dayNames[jsDateObj.getDay()]
+    //                         var monthInfo = monthNames[jsDateObj.getMonth()]
+    //                         var dayNumInfo = jsDateObj.getDate()
+    //                         var stringDate = dayNameInfo + " " + monthInfo + " " + dayNumInfo
+
+    //                         var emailParams = {
+    //                             eventName: event.eventName,
+    //                             eventTime: formatAMPM(jsDateObj),
+    //                             eventDay: stringDate,
+    //                             eventLocation: event.location,
+    //                             weatherIssue: weatherIssue
+    //                         }
+                            
+    //                         sendEmail(emailParams)
+    //                     }
+
+    //                     //determines event no longer needs to be checked with the next db check
+    //                     let hasCheckedInfo = {
+    //                         eventTitle: event.eventName,
+    //                         specificUserId: currentUser.uid, 
+    //                         hasBeenChecked: true
+    //                     }
+                           
+    //                     helperFunctions.firestoreFunctions("update_check", hasCheckedInfo)
+
+    //                 });
     //             })
     //         }
-
-            
-
-            
     //     })
-        
-    // }, 5000);
+    // }, 600000);
     // return () => clearInterval(interval);
     // }, []);
 
@@ -238,9 +253,9 @@ export default function UserDashboard() {
 
 
             {/* email button */}
-            <div className="w-100 text-center mt-2">
-                <Button variant="link" onClick={testForecast}>Send Email</Button>
-            </div>
+            {/* <div className="w-100 text-center mt-2">
+                <Button variant="link" onClick={}>Send Email</Button>
+            </div> */}
         </>
     )
 }
