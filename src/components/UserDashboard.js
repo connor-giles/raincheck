@@ -50,7 +50,6 @@ const useStyles = makeStyles((theme) => ({
         justifyContent: 'center'
     },
     profileContent: {
-        marginLeft: '175px',
         marginTop: '20px',
     },
     paper: {
@@ -323,13 +322,13 @@ export default function UserDashboard() {
                             title="Image title"
                         />
                         <CardContent className={classes.profileContent}>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography gutterBottom variant="h5" component="h2" align='center'>
                                 E-Mail: {currentUser.email}
                             </Typography>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography gutterBottom variant="h5" component="h2" align='center'>
                                 Hometown: {homeT}
                             </Typography>
-                            <Typography gutterBottom variant="h5" component="h2">
+                            <Typography gutterBottom variant="h5" component="h2" align='center'>
                                 First Name: {firstName}
                             </Typography>
                         </CardContent>
