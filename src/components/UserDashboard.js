@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
         marginBottom: '320px'
     },
     weatherBox: {
-        margin: 'auto',
+        margin: 'auto'
     },
     profileBox: {
         margin: 'auto'
@@ -69,9 +69,7 @@ const useStyles = makeStyles((theme) => ({
     },
     navBar: {
         fontWeight: 600,
-        backgroundColor: '#3b5480',
-        borderTopRightRadius: 16,
-        borderTopLeftRadius: 16
+        backgroundColor: '#3b5480'
     },
     title: {
         fontWeight: 600,
