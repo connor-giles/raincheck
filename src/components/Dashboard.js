@@ -1,12 +1,50 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
+import { makeStyles } from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import CloudIcon from '@material-ui/icons/Cloud';
 
 const weatherAPI = {
     key: "2a57815a865fa327116a8e960e80aa9e",
     base: "https://api.openweathermap.org/data/2.5/"
 }
 
+const useStyles = makeStyles((theme) => ({
+    root: {
+    fontWeight: 600,
+      flexGrow: 1,
+    },
+    navBar: {
+        fontWeight: 600,
+        backgroundColor: '#212d5b',
+        borderTopRightRadius: 16,
+        borderTopLeftRadius: 16
+      },
+    menuButton: {
+      fontWeight: 600,
+      marginRight: theme.spacing(2),
+    },
+    title: {
+    fontWeight: 600,
+      flexGrow: 1,
+      color: '#fff'
+    },
+    button: {
+        fontWeight: 600
+    }
+  }));
+
+  const styles = {
+    largeIcon: {
+      width: 20,
+      height: 20
+    }
+  };
+
 export default function Dashboard() {
+    const classes = useStyles();
 
     const [apiQuery, setApiQuery] = useState('');
     const [weather, setWeather] = useState({});
@@ -35,12 +73,22 @@ export default function Dashboard() {
         return `${day} ${date} ${month} ${year}`
     }
 
-
-
     return (
         <div className="app">
             <main>
 
+            <div className={classes.root}>
+                <AppBar className={classes.navBar} position="static">
+                    <Toolbar>
+                    <Typography variant='h4' className={classes.title}>
+                        RainCheck <CloudIcon className="svg_icons" />
+                    </Typography>
+                    <Button  color='inherit' href='/login'>Log-in</Button>
+                    <Button color='inherit' href='/signup'>Sign Up</Button>
+                    </Toolbar>
+                </AppBar>
+            </div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div className="search-box">
                 <input 
                 type="text"
@@ -68,10 +116,7 @@ export default function Dashboard() {
 
             </main>
 
-            <div className="display-3 w-100 text-right fixed-top mt-5 pt-5 pr-5">
-                <Link to="/login">Login</Link>
-            </div> 
-
+            
         </div>
     )
 }
