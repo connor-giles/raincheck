@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { DatePicker, Space } from 'antd';
 import 'antd/dist/antd.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Checkbox, FormControlLabel, Grid, Typography } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, Typography } from '@material-ui/core';
 import { TextField, Container, CssBaseline, Avatar, Paper, Box } from '@material-ui/core';
 import firebase from 'firebase/app'
 import helperFunctions from '../firebase.js'

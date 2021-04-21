@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Button, Alert } from 'react-bootstrap'
+import { Card, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from 'react-router-dom'
+import emailjs from 'emailjs-com'
+import { makeStyles } from '@material-ui/core/styles';
+import { Button, Checkbox, FormControlLabel, Grid, Typography } from '@material-ui/core';
+import { TextField, Container, CssBaseline, Avatar, Paper, Box } from '@material-ui/core';
 import helperFunctions from '../firebase.js'
 import CalendarCards from './CalendarCards'
-import emailjs from 'emailjs-com'
 
 //test firebase imports
 import firebase from 'firebase/app'
@@ -15,8 +18,15 @@ const weatherAPI = {
     base: "https://api.openweathermap.org/data/2.5/"
 }
 
+const useStyles = makeStyles((theme) => ({
+    logoutButton: {
+        maxWidth: '200px',
+    },
+}));
+
 export default function UserDashboard() {
-    
+
+    const classes = useStyles() //handles css stuff
     const[error, setError] = useState('')
     const[homeT, setHomeT] = useState('')
     const[firstName, setFirstName] = useState('Raincheck User')
@@ -232,23 +242,36 @@ export default function UserDashboard() {
                 }} >Add New Event</Link>
             </div>
 
-            {(typeof weather.main != "undefined") ? (
-                <div>
-                <div className="location-box">
-                    <div className="location">{weather.name}, {weather.sys.country} </div>
-                    <div className="date">{dateBuilder(new Date())}</div>
-                </div>
+            <Paper>
+                {(typeof weather.main != "undefined") ? (
+                    <div>
+                    <div className="location-box">
+                        <div className="location">{weather.name}, {weather.sys.country} </div>
+                        <div className="date">{dateBuilder(new Date())}</div>
+                    </div>
 
-                <div className="weather-box">
-                    <div className="temp">{Math.round(weather.main.temp * 9 / 5 + 32)}°F</div>
-                    <div className="weather">{weather.weather[0].main}</div>
-                </div>
-                </div>
-            ) : ('')}
+                    <div className="weather-box">
+                        <div className="temp">{Math.round(weather.main.temp * 9 / 5 + 32)}°F</div>
+                        <div className="weather">{weather.weather[0].main}</div>
+                    </div>
+                    </div>
+                ) : ('')}
+            </Paper>
 
             {/* Logout button */}
             <div className="w-100 text-center mt-2">
-                <Button variant="link" onClick={handleLogout}>Log Out</Button>
+                {/* <Button variant="link" onClick={handleLogout}>Log Out</Button> */}
+                <Button
+                    type="submit"
+                    fullWidth
+                    variant="contained"
+                    color="primary"
+                    className={classes.logoutButton}
+                    onClick={() => {
+                        handleLogout()
+                    }}>
+                    Log Out
+                </Button>
             </div>
 
 
