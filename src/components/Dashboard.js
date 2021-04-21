@@ -20,7 +20,9 @@ const useStyles = makeStyles((theme) => ({
     },
     navBar: {
         fontWeight: 600,
-        backgroundColor: '#86bbeb'
+        backgroundColor: '#86bbeb',
+        borderTopRightRadius: 16,
+        borderTopLeftRadius: 16
       },
     menuButton: {
       fontWeight: 600,

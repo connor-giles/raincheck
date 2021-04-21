@@ -24,7 +24,6 @@ main {
 .search-box {
   width: 100%;
   margin: 0 0 75 px;
-  background-color: rgb(203, 217, 236);
 }
 
 .search-box .search-bar {
@@ -37,9 +36,9 @@ main {
   border: none;
   outline: none;
 
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgb(203, 217, 236);
   border-radius: 0px 0px 16px 16px;
-  margin-top: -25px;
+  margin-top: -24px;
 
   box-shadow: 0px 5px rgba(0, 0, 0, 0.2);
 
