@@ -11,7 +11,6 @@ import TodayIcon from '@material-ui/icons/Today';
 import Image from '../assets/pic1.jpg';
 
 
-
 const useStyles = makeStyles((theme) => ({
     fullPage: {
         backgroundImage:  `url(${Image})`
