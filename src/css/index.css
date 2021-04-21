@@ -52,6 +52,10 @@ main {
   background-color: rgba(255, 255, 255, 0.75);
 }
 
+.button-class {
+  color: white;
+}
+
 .location-box .location {
   color: #FFF;
   font-size: 32px;
@@ -78,7 +82,7 @@ main {
   position: relative;
   display: inline-block;
   margin: 30px auto;
-  background-color: rgba(255, 255, 255, 0.2);
+  background-color: rgba(255, 255, 255, 0.35);
   border-radius: 16px;
 
   padding: 15px 25px;

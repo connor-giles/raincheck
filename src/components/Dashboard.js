@@ -4,9 +4,7 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
-
+import CloudIcon from '@material-ui/icons/Cloud';
 
 const weatherAPI = {
     key: "2a57815a865fa327116a8e960e80aa9e",
@@ -20,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
     navBar: {
         fontWeight: 600,
-        backgroundColor: '#86bbeb',
+        backgroundColor: '#212d5b',
         borderTopRightRadius: 16,
         borderTopLeftRadius: 16
       },
@@ -31,11 +29,19 @@ const useStyles = makeStyles((theme) => ({
     title: {
     fontWeight: 600,
       flexGrow: 1,
+      color: '#fff'
     },
     button: {
         fontWeight: 600
     }
   }));
+
+  const styles = {
+    largeIcon: {
+      width: 20,
+      height: 20
+    }
+  };
 
 export default function Dashboard() {
     const classes = useStyles();
@@ -75,14 +81,14 @@ export default function Dashboard() {
                 <AppBar className={classes.navBar} position="static">
                     <Toolbar>
                     <Typography variant='h4' className={classes.title}>
-                        RainCheck
+                        RainCheck <CloudIcon className="svg_icons" />
                     </Typography>
-                    <Button href='/login' color="white">Login</Button>
-                    <Button href='/signup' color="white">Sign Up</Button>
+                    <Button  color='inherit' href='/login'>Log-in</Button>
+                    <Button color='inherit' href='/signup'>Sign Up</Button>
                     </Toolbar>
                 </AppBar>
             </div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <div className="search-box">
                 <input 
                 type="text"
