@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { AuthProvider } from '../contexts/AuthContext.js';
 import Signup from "./Signup.js"
 import Dashboard from "./Dashboard.js"
@@ -40,3 +40,7 @@ function App() {
 }
 
 export default App;
+
+//TODO:
+//1. Maybe fix refreshing with Update and Delete
+//2. Fix when hometown is fetched (add await)

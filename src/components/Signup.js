@@ -9,6 +9,7 @@ export default function Signup() {
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
     const homeTownRef = useRef()
+    const firstNameRef = useRef()
     const { signup } = useAuth()
     const[error, setError] = useState('')
     const[loading, setLoading] = useState(false)
@@ -27,7 +28,7 @@ export default function Signup() {
         try {
             setError('')
             setLoading(true)
-            await signup(emailRef.current.value, passwordRef.current.value, homeTownRef.current.value)
+            await signup(emailRef.current.value, passwordRef.current.value, homeTownRef.current.value, firstNameRef.current.value)
             history.push('/userdashboard')
         } catch {
             setError('Failed to create an account')
@@ -60,6 +61,10 @@ export default function Signup() {
                                     <Form.Group id="hometown">
                                         <Form.Label>Hometown</Form.Label>
                                         <Form.Control type="hometown" ref={homeTownRef} required />
+                                    </Form.Group>
+                                    <Form.Group id="first-name">
+                                        <Form.Label>First Name</Form.Label>
+                                        <Form.Control type="firstname" ref={firstNameRef} required />
                                     </Form.Group>
                                     <Button disabled={loading} className="w-100"type="submit">
                                         Sign Up

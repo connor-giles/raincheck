@@ -11,8 +11,6 @@ export default function CalendarCards(id) {
         })
     },[id.id])
 
-    
-
     if(Object.keys(eventIDs).length !== 0){ 
         return (
             <>
@@ -21,7 +19,8 @@ export default function CalendarCards(id) {
                         eventName: doc.data().eventName,
                         userTime: doc.data().eventDateTime,
                         outdoors: doc.data().isOutdoors,
-                        userId: id.id
+                        userId: id.id,
+                        location: doc.data().location
                     }
                     return(
                         <SingleCard props={props}/>

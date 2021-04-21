@@ -9,6 +9,7 @@ export default function UpdateProfile() {
     const emailRef = useRef()
     const passwordRef = useRef()
     const passwordConfirmRef = useRef()
+    const firstNameRef = useRef()
     const hometownRef = useRef()
     const { currentUser, updateEmail, updatePassword } = useAuth()
     const[error, setError] = useState('')
@@ -51,6 +52,16 @@ export default function UpdateProfile() {
             helperFunctions.firestoreFunctions("update_hometown", updateData)
         }
 
+        //if a hometown was entered
+        if(firstNameRef.current.value) {
+            var firstNameUpdateData = {
+                user: currentUser.uid,
+                firstNameUpdate: firstNameRef.current.value
+            }
+
+            helperFunctions.firestoreFunctions("update_firstname", firstNameUpdateData)
+        }
+
         Promise.all(promises).then(() => {
             history.push('/userdashboard')
         }).catch(() => {
@@ -76,6 +87,10 @@ export default function UpdateProfile() {
                                     <Form.Group id="hometown">
                                         <Form.Label>Hometown Update</Form.Label>
                                         <Form.Control type="hometown" ref={hometownRef} placeholder="Leave blank to keep the same"/>
+                                    </Form.Group>
+                                    <Form.Group id="firstname">
+                                        <Form.Label>First Name Update</Form.Label>
+                                        <Form.Control type="firstname" ref={firstNameRef} placeholder="Leave blank to keep the same"/>
                                     </Form.Group>
                                     <Form.Group id="password">
                                         <Form.Label>Password</Form.Label>
