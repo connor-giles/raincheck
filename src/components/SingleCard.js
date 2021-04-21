@@ -11,6 +11,13 @@ const useStyles = makeStyles({
     gridContainer: {
         paddingLeft: '20px',
         paddingRight: '20px'
+    },
+    eventFont: {
+        color : '#ffffff'
+    },
+    eventFontTitle: {
+        color : '#ffffff',
+        fontStyle:'italic'
     }
 })
 
@@ -43,30 +50,30 @@ export default function SingleCard({props}) {
     return (
         <Grid container spacing={3} className={classes.gridContainer} justify={'center'}>
             <Grid item xs={6}>
-                <Card style={{backgroundColor: "lightblue"}}>
+                <Card style={{backgroundColor: "#7591be"}}>
                     <CardContent>
-                        <Typography variant="h5" component="h2" align="center">
+                        <Typography className={classes.eventFontTitle} variant="h5" component="h2" align="center">
                             <b>{props.eventName}</b>
                         </Typography>
-                        <Typography align="center">
+                        <Typography className={classes.eventFont} align="center">
                             {stringDate}
                         </Typography>
-                        <Typography align="center">
+                        <Typography className={classes.eventFont} align="center">
                             {formatAMPM(timeObject)}
                         </Typography>
-                        <Typography align="center">
+                        <Typography className={classes.eventFont} align="center">
                             {props.location}
                         </Typography>
                         <div className="w-100 text-center mt-3">
-                            <Link to={{
+                            <Link className={classes.eventFont} to={{
                                 pathname:"/delete-event", 
                                 props:{
                                     userId: props.userId,
                                     eventName: props.eventName
                                 }
                             }} >Delete</Link>
-                            &nbsp;&nbsp;&nbsp;<b>|</b>&nbsp;&nbsp;&nbsp;  
-                            <Link to={{
+                            &nbsp;&nbsp;&nbsp;<b className={classes.eventFont}>|</b>&nbsp;&nbsp;&nbsp;  
+                            <Link className={classes.eventFont} to={{
                                 pathname:"/update-event", 
                                 props:{
                                     userId: props.userId,

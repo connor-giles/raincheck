@@ -97,6 +97,9 @@ const useStyles = makeStyles((theme) => ({
     cardMedia: {
         paddingTop: '56.25%', // 16:9
     },
+    addNewEvent: {
+        color: '#7691be'
+    }
 }));
 
 export default function UserDashboard() {
@@ -300,8 +303,8 @@ export default function UserDashboard() {
                             User Profile
                         </Typography>
                         <AccountCircleIcon fontSize="large" />
-                        <Typography variant='h4' className={classes.welcomeTag}>
-                            Greetings {firstName} 
+                        <Typography variant='h3' className={classes.welcomeTag}>
+                            Greetings {firstName}!
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -348,7 +351,7 @@ export default function UserDashboard() {
                     </Typography>
                     <CalendarCards id={currentUser.uid}/>
                     <div className="w-100 text-center mt-3">
-                        <Link to={{
+                        <Link className={classes.addNewEvent}  to={{
                             pathname:"/add-event", 
                             props:{
                                 userId: currentUser.uid
@@ -360,7 +363,7 @@ export default function UserDashboard() {
                     <Typography variant='h3' className="text-center mb-4">
                         Hometown Weather
                     </Typography>
-                    <Paper elevation={2} className={classes.paper} square={false} varient='outlined' align='center'>
+                    <Paper elevation={2} className={classes.paper} align='center'>
                         {(typeof weather.main != "undefined") ? (
                             <div>
                             <div className="profile-location-box">
