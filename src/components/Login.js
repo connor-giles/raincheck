@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: '#215d81',
+      backgroundColor: '#3b5480',
     },
 }));
 
@@ -66,17 +66,17 @@ export default function Login() {
                                         <Form.Label>Password</Form.Label>
                                         <Form.Control type="password" ref={passwordRef} required />
                                     </Form.Group>
-                                    <Button disabled={loading} style={{backgroundColor: '#215d81', outlineColor: '#215d81'}} className="w-100" type="submit" color="#215d81">
+                                    <Button disabled={loading} style={{backgroundColor: '#3b5480', outlineColor: '#3b5480'}} className="w-100" type="submit" color="#215d81">
                                         Log In
                                     </Button>
                             </Form>
                             <div className="w-100 text-center mt-3">
-                                <Link to="/forgot-password" style={{color: '#215d81'}}>Forgot Password?</Link>
+                                <Link to="/forgot-password" style={{color: '#3b5480'}}>Forgot Password?</Link>
                             </div>
                         </Card.Body>
                     </Card>
                     <div className="w-100 text-center mt-2">
-                            Dont have an account? <Link to="/signup" style={{color: '#215d81'}}>Sign Up</Link>
+                            Dont have an account? <Link to="/signup" style={{color: '#3b5480'}}>Sign Up</Link>
                     </div> 
                 </div>
            </Container>

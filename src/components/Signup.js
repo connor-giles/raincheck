@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
     },
     avatar: {
       margin: theme.spacing(1),
-      backgroundColor: '#215d81',
+      backgroundColor: '#3b5480',
     },
 }));
 
@@ -88,14 +88,14 @@ export default function Signup() {
                                         <Form.Label>First Name</Form.Label>
                                         <Form.Control type="firstname" ref={firstNameRef} required />
                                     </Form.Group>
-                                    <Button disabled={loading} style={{backgroundColor: '#215d81', outlineColor: '#215d81'}} className="w-100" type="submit">
+                                    <Button disabled={loading} style={{backgroundColor: '#3b5480', outlineColor: '#3b5480'}} className="w-100" type="submit">
                                         Sign Up
                                     </Button>
                                 </Form>
                         </Card.Body>
                     </Card>
                     <div className="w-100 text-center mt-2">
-                            Already have an account? <Link to="/login" style={{color: '#215d81'}}>Log In</Link>
+                            Already have an account? <Link to="/login" style={{color: '#3b5480'}}>Log In</Link>
                     </div> 
                 </div>
            </Container>
