@@ -1,27 +1,58 @@
 import React, { useState } from 'react';
-import TextField from '@material-ui/core/TextField';
 import { DatePicker, Space } from 'antd';
 import 'antd/dist/antd.css';
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Checkbox, FormControlLabel } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, Grid, Typography } from '@material-ui/core';
+import { TextField, Container, CssBaseline, Avatar, Paper, Box } from '@material-ui/core';
 import firebase from 'firebase/app'
 import helperFunctions from '../firebase.js'
 import { useHistory } from "react-router-dom"
 import moment from 'moment';
+import UpdateIcon from '@material-ui/icons/Update';
+import Image from '../assets/pic2.jpg';
 
 
-const useStyles = makeStyles({
-    container: {
-        display: 'flex',
-        flexDirection: 'column',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: '10%',
+const useStyles = makeStyles((theme) => ({
+    fullPage: {
+        backgroundImage:  `url(${Image})`
     },
-    title: {
-        marginBottom: '6%'
-    }
-})
+    paper: {
+      marginTop: theme.spacing(8),
+      display: 'block',
+      flexDirection: 'column',
+      padding: 50,
+      height: '45vh',
+      width: 600,
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: '#436385'
+    },
+    datePicker: {
+      marginTop: '20px'
+    },
+    outdoor: {
+      paddingTop: 30
+    },
+    form: {
+      width: '100%', // Fix IE 11 issue.
+      marginTop: theme.spacing(1),
+    },
+    submitButton: {
+      margin: theme.spacing(3, 0, 2),
+      maxWidth: '200px',
+      marginRight: '15px',
+      backgroundColor: '#436385'
+    },
+    cancelButton: {
+      margin: theme.spacing(3, 0, 2),
+      maxWidth: '200px',
+      marginLeft: '15px',
+      backgroundColor: '#436385'
+    },
+}));
 
 export default function UpdateEvent(props) {
     const classes = useStyles() //handles css stuff
@@ -58,28 +89,22 @@ export default function UpdateEvent(props) {
         var dateTimeContent = dateString.split(" ");
         // dateTimeContent[0] -> Date
         // dateTimeContent[1] -> Time
-        var dateContent = dateTimeContent[0].split("-")
-        // dateContent[0] -> Year | dateContent[1] -> Month | dateContent[2] -> Day
-        setEventYear(parseInt(dateContent[0]))
-        setEventMonth(parseInt(dateContent[1]))
-        setEventDay(parseInt(dateContent[2]))
-        var timeContent = dateTimeContent[1].split(":")
-        // timeContent[0] -> Hours | timeContent[1] -> Minutes | timeContent[2] -> Seconds
-        setEventHour(parseInt(timeContent[0]))
-        setEventMinute(parseInt(timeContent[1]))
-        setEventSecond(parseInt(timeContent[2]))
+        if (dateTimeContent[0] !== undefined && dateTimeContent[1] !== undefined) {
+            var dateContent = dateTimeContent[0].split("-")
+            // dateContent[0] -> Year | dateContent[1] -> Month | dateContent[2] -> Day
+            setEventYear(parseInt(dateContent[0]))
+            setEventMonth(parseInt(dateContent[1]))
+            setEventDay(parseInt(dateContent[2]))
+            var timeContent = dateTimeContent[1].split(":")
+            // timeContent[0] -> Hours | timeContent[1] -> Minutes | timeContent[2] -> Seconds
+            setEventHour(parseInt(timeContent[0]))
+            setEventMinute(parseInt(timeContent[1]))
+            setEventSecond(parseInt(timeContent[2]))
+        }
     }
     
     function sendUpdateInfoToDb() {
-        console.log("Year: " + eventYear)
-        console.log("Month: " + eventMonth)
-        console.log("Day: " + eventDay)
-        console.log("Hour: " + eventHour)
-        console.log("Minute: " + eventMinute)
-        console.log("Second: " + eventSecond)
         const dateToAdd = new Date(eventYear, (eventMonth - 1), eventDay, eventHour, eventMinute, eventSecond)
-
-        console.log("DATE BEING SENT TO DB: " + dateToAdd)
         const fireStoreDateTime = firebase.firestore.Timestamp.fromDate(dateToAdd);
 
         let updateInfoPassed = {
@@ -95,55 +120,86 @@ export default function UpdateEvent(props) {
     }
     
     return(
-        <div className={classes.container}>
+        <div className={classes.fullPage}>
+        <Container component="main" maxWidth="xs">
+            <CssBaseline />
+            <Box display="flex" alignItems="center" justifyContent="center">
+                <Paper elevation={10} className={classes.paper} square={false} varient='outlined' align='center'>
+                    <Avatar className={classes.avatar} align="center">
+                        <UpdateIcon />
+                    </Avatar>
+                    <Typography component="h1" variant="h5" align='center'>
+                        Update Event
+                    </Typography>
+                    <form className={classes.form} noValidate>
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            label="Updated Event Name"
+                            name="eventName"
+                            onChange={(e) => setEventName(e.target.value)}
+                            defaultValue={eventName}
+                            />
+                        <TextField
+                            variant="outlined"
+                            margin="normal"
+                            required
+                            fullWidth
+                            name="eventLoc"
+                            label="Updated Event Location (City Name)"
+                            onChange={(e) => setUpdatedLocation(e.target.value)}
+                            defaultValue={updatedLocation}
+                        />
 
-        <h1 className={classes.title}>Update Event Title Below</h1>
-        <form noValidate autoComplete="off">
-            <TextField onChange={(e) => setEventName(e.target.value)} id="filled-basic" defaultValue={eventName} label="Enter Updated Name" variant="filled" color="secondary"/>
-        </form>
+                        <div className={classes.datePicker}>
+                            <Space direction="vertical" size={12}>
+                                <DatePicker showTime onChange={onChange} defaultValue={tempDateTime} style={{ width: 500, height: 50}}/>
+                            </Space>
+                        </div>
 
-
-        <h1 className={classes.title}>Update Event Infomation Below</h1>
-        <div>
-            <Space direction="vertical" size={12}>
-                <DatePicker defaultValue={tempDateTime} showTime onChange={onChange} />
-            </Space>
+                        <FormControlLabel className = {classes.outdoor}
+                            control={
+                                <Checkbox
+                                    checked={isOutdoors}
+                                    onChange={toggle}
+                                    name="indoorOutdoor"
+                                    color="primary"
+                                />
+                            }
+                            label="Will your event take place outdoors?"
+                        />
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.submitButton}
+                            onClick={() => {
+                                sendUpdateInfoToDb()
+                                history.push("/userdashboard")
+                            }}>
+                            Submit Event Info
+                        </Button>
+                        <Button
+                            type="submit"
+                            fullWidth
+                            variant="contained"
+                            color="primary"
+                            className={classes.cancelButton}
+                            onClick={() => {
+                                history.push("/userdashboard")
+                            }}>
+                            Cancel
+                        </Button>
+                    </form>
+                </Paper>
+            </Box>
+        </Container>
         </div>
 
-        <h1 className={classes.title}>Update Event Location</h1>
-        <form noValidate autoComplete="off">
-            <TextField onChange={(e) => setUpdatedLocation(e.target.value)} id="filled-basic" defaultValue={updatedLocation} label="Enter Updated Location" variant="filled" color="secondary"/>
-        </form>
-        <FormControlLabel
-            control={
-                <Checkbox
-                    checked={isOutdoors}
-                    onChange={toggle}
-                    name="indoorOutdoor"
-                    color="primary"
-                />
-            }
-            label="Outdoors"
-        />
 
-        <Button variant="outlined" color="primary"
-        onClick={() => {
-            sendUpdateInfoToDb()
-            history.push("/userdashboard")
-        }}>
-            Submit Updated Info
-        </Button>
-
-        <Button variant="outlined" color="primary" onClick={() => {history.push("/userdashboard") }}>
-            Cancel
-        </Button>
-
-        <br></br>
-        <br></br>
-        <br></br>
-        <h1 className={classes.title} color="red">*** Be Sure to Refresh User Dashboard to See Updated Event ***</h1>
-
-        </div>
     )
 
 }
