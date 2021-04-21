@@ -77,7 +77,10 @@ export default function Login() {
                     </Card>
                     <div className="w-100 text-center mt-2">
                             Dont have an account? <Link to="/signup" style={{color: '#3b5480'}}>Sign Up</Link>
-                    </div> 
+                    </div>
+                    <div className="w-100 text-center mt-2">
+                            Return to Dashboard? <Link to="/" style={{color: '#3b5480'}}>Dashboard</Link>
+                    </div>  
                 </div>
            </Container>
         </div>

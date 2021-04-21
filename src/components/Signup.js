@@ -96,7 +96,10 @@ export default function Signup() {
                     </Card>
                     <div className="w-100 text-center mt-2">
                             Already have an account? <Link to="/login" style={{color: '#3b5480'}}>Log In</Link>
-                    </div> 
+                    </div>
+                    <div className="w-100 text-center mt-2">
+                            Return to Dashboard? <Link to="/" style={{color: '#3b5480'}}>Dashboard</Link>
+                    </div>   
                 </div>
            </Container>
         </div>
