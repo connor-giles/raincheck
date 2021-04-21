@@ -42,7 +42,7 @@ export default function SingleCard({props}) {
 
     return (
         <Grid container spacing={3} className={classes.gridContainer} justify={'center'}>
-            <Grid item xs={2}>
+            <Grid item xs={6}>
                 <Card style={{backgroundColor: "lightblue"}}>
                     <CardContent>
                         <Typography variant="h5" component="h2" align="center">

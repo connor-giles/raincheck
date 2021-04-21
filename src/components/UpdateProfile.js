@@ -3,6 +3,20 @@ import { Card, Form, Button, Container, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from "react-router-dom"
 import helperFunctions from '../firebase.js'
+import { makeStyles } from '@material-ui/core/styles';
+import Image from '../assets/pic3resize.jpg';
+import { Box, Avatar } from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+
+const useStyles = makeStyles((theme) => ({
+    fullPage: {
+        backgroundImage:  `url(${Image})`
+    },
+    avatar: {
+      margin: theme.spacing(1),
+      backgroundColor: '#3b5480',
+    },
+}));
 
 export default function UpdateProfile() {
 
@@ -15,6 +29,7 @@ export default function UpdateProfile() {
     const[error, setError] = useState('')
     const[loading, setLoading] = useState(false)
     const history = useHistory()
+    const classes = useStyles() //handles css stuff
 
     //functions that handles the updat of the user's account
     function handleSubmit(e) {
@@ -72,11 +87,16 @@ export default function UpdateProfile() {
     }
 
     return (
-        <>
+        <div className={classes.fullPage}>
            <Container className="d-flex align-items center justify-content-center pt-5" style={{ minHeight: "100vh "}}>
                 <div className="w-100" style={{ maxWidth: "400px" }}>
                     <Card>
                         <Card.Body>
+                            <Box display="flex" alignItems="center" justifyContent="center">
+                                <Avatar className={classes.avatar} align="center">
+                                    <EditIcon />
+                                </Avatar>
+                            </Box>
                             <h2 className="text-center mb-4">Update Profile</h2>
                             {error && <Alert variant="danger">{error}</Alert>}
                             <Form onSubmit={handleSubmit}>
@@ -100,17 +120,17 @@ export default function UpdateProfile() {
                                         <Form.Label>Password Confirmation</Form.Label>
                                         <Form.Control type="password" ref={passwordConfirmRef} placeholder="Leave blank to keep the same"/>
                                     </Form.Group>
-                                    <Button disabled={loading} className="w-100"type="submit">
+                                    <Button disabled={loading} style={{backgroundColor: '#3b5480'}} className="w-100"type="submit">
                                         Update
                                     </Button>
                                 </Form>
                         </Card.Body>
                     </Card>
                     <div className="w-100 text-center mt-2">
-                             <Link to="/userdashboard">Cancel</Link>
+                             <Link to="/userdashboard" style={{color: '#3b5480'}}>Cancel</Link>
                     </div> 
                 </div>
            </Container>
-        </>
+        </div>
     )
 }

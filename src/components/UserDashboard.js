@@ -1,17 +1,16 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Alert } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from 'react-router-dom'
 import emailjs from 'emailjs-com'
 import { makeStyles } from '@material-ui/core/styles';
-import { Button, Checkbox, FormControlLabel, Grid, Typography } from '@material-ui/core';
-import { TextField, Container, CssBaseline, Avatar, Paper, Box } from '@material-ui/core';
+import { Button, Checkbox, FormControlLabel, Grid, Typography, Toolbar, AppBar, CardMedia } from '@material-ui/core';
+import { TextField, Container, CssBaseline, Avatar, Paper, Box, Card, CardActions, CardContent } from '@material-ui/core';
 import helperFunctions from '../firebase.js'
 import CalendarCards from './CalendarCards'
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
+import Image from '../assets/pic2.jpg';
 
-//test firebase imports
-import firebase from 'firebase/app'
-const db = firebase.firestore()
 
 const weatherAPI = {
     key: "2a57815a865fa327116a8e960e80aa9e",
@@ -19,8 +18,87 @@ const weatherAPI = {
 }
 
 const useStyles = makeStyles((theme) => ({
+    fullPage: {
+        backgroundImage:  `url(${Image})`,
+        backgroundSize: 'cover',
+    },
+    fullGridContainer: {
+        marginTop: '80px'
+    },
     logoutButton: {
         maxWidth: '200px',
+        marginTop: '100px',
+        backgroundColor: '#3b5480',
+        marginBottom: '320px'
+    },
+    weatherBox: {
+        margin: 'auto',
+    },
+    profileBox: {
+        margin: 'auto'
+    },
+    eventsBox: {
+        margin: 'auto',
+    },
+    editProfileButtonText: {
+        maxWidth: '200px',
+        marginTop: '6px',
+        backgroundColor: '#3b5480',
+        color: '#ffffff'
+    },
+    editProfileButton: {
+        justifyContent: 'center'
+    },
+    profileContent: {
+        marginLeft: '175px',
+        marginTop: '20px',
+    },
+    paper: {
+        display: 'block',
+        padding: '65px',
+        height: '600px',
+        width: '600px',
+        margin: 'auto',
+        backgroundColor: '#99c0e6',
+    },
+    infoGrids: {
+        marginTop: '100px',
+    },
+    root: {
+        fontWeight: 600,
+        flexGrow: 1,
+    },
+    navBar: {
+        fontWeight: 600,
+        backgroundColor: '#3b5480',
+        borderTopRightRadius: 16,
+        borderTopLeftRadius: 16
+    },
+    title: {
+        fontWeight: 600,
+          flexGrow: 1,
+          color: '#fff'
+    },
+    profileTitle: {
+        fontWeight: 600,
+        flexGrow: 1,
+        color: '#222',
+        align: 'center'
+    },
+    welcomeTag: {
+        fontWeight: 200,
+        color: '#fff',
+        fontSize: '18px',
+        marginTop: '3px',
+        marginLeft: '8px'
+    },
+    userInfo: {
+        width: '600px',
+        height: '600px',
+        margin: 'auto',
+    },
+    cardMedia: {
+        paddingTop: '56.25%', // 16:9
     },
 }));
 
@@ -217,46 +295,91 @@ export default function UserDashboard() {
 
     
     return (
-        <>
-            <Card>
-                <Card.Body>
-                    <h2 className="text-center mb-4">Profile</h2>
-                    {error && <Alert variant="danger">{error}</Alert>}
-                    <strong>Email: </strong> {currentUser.email}
-                    <br></br>
-                    <strong>Hometown: </strong> {homeT}
-                    <br></br>
-                    <strong>First Name: </strong> {firstName}
-                    <Link to="/update-profile" className="btn btn-primary w-100 mt-3">Edit Profile</Link>
-                </Card.Body>
-            </Card>
-
-            <h1 className="text-center mb-4">Upcoming Events</h1>
-            <CalendarCards id={currentUser.uid}/>
-            <div className="w-100 text-center mt-3">
-                <Link to={{
-                    pathname:"/add-event", 
-                    props:{
-                        userId: currentUser.uid
-                    }
-                }} >Add New Event</Link>
+        <div className={classes.fullPage}>
+            <div className={classes.root}>
+                <AppBar className={classes.navBar} position="static">
+                    <Toolbar>
+                        <Typography variant='h4' className={classes.title}>
+                            User Profile
+                        </Typography>
+                        <AccountCircleIcon fontSize="large" />
+                        <Typography variant='h4' className={classes.welcomeTag}>
+                            Greetings {firstName} 
+                        </Typography>
+                    </Toolbar>
+                </AppBar>
             </div>
+            {error && <Alert variant="danger">{error}</Alert>}
 
-            <Paper>
-                {(typeof weather.main != "undefined") ? (
-                    <div>
-                    <div className="location-box">
-                        <div className="location">{weather.name}, {weather.sys.country} </div>
-                        <div className="date">{dateBuilder(new Date())}</div>
+            <Grid container className={classes.fullGridContainer}>
+                <Grid item xs={4} className={classes.profileBox}> 
+                    <Typography variant='h3' className="text-center mb-4">
+                        Profile Information
+                    </Typography>
+                    <Card className={classes.userInfo}>
+                        <CardMedia
+                            className={classes.cardMedia}
+                            image='https://bit.ly/3sF0DQO'
+                            title="Image title"
+                        />
+                        <CardContent className={classes.profileContent}>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                E-Mail: {currentUser.email}
+                            </Typography>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                Hometown: {homeT}
+                            </Typography>
+                            <Typography gutterBottom variant="h5" component="h2">
+                                First Name: {firstName}
+                            </Typography>
+                        </CardContent>
+                        <CardActions className={classes.editProfileButton}>
+                            <Button
+                                fullWidth
+                                size="large"
+                                variant="contained"
+                                className={classes.editProfileButtonText}
+                                href="/update-profile">
+                                Edit Profile
+                            </Button>
+                        </CardActions>
+                    </Card>
+                </Grid>
+                <Grid item xs={4} className={classes.eventsBox}>
+                    <Typography variant='h3' className="text-center mb-4">
+                        Upcoming Events
+                    </Typography>
+                    <CalendarCards id={currentUser.uid}/>
+                    <div className="w-100 text-center mt-3">
+                        <Link to={{
+                            pathname:"/add-event", 
+                            props:{
+                                userId: currentUser.uid
+                            }
+                        }} >Add New Event</Link>
                     </div>
+                </Grid>
+                <Grid item xs={4} className={classes.weatherBox}>
+                    <Typography variant='h3' className="text-center mb-4">
+                        Hometown Weather
+                    </Typography>
+                    <Paper elevation={2} className={classes.paper} square={false} varient='outlined' align='center'>
+                        {(typeof weather.main != "undefined") ? (
+                            <div>
+                            <div className="profile-location-box">
+                                <div className="location" >{weather.name}, {weather.sys.country} </div>
+                                <div className="date">{dateBuilder(new Date())}</div>
+                            </div>
 
-                    <div className="weather-box">
-                        <div className="temp">{Math.round(weather.main.temp * 9 / 5 + 32)}°F</div>
-                        <div className="weather">{weather.weather[0].main}</div>
-                    </div>
-                    </div>
-                ) : ('')}
-            </Paper>
+                            <div className="profile-weather-box">
+                                <div className="temp">{Math.round(weather.main.temp * 9 / 5 + 32)}°F</div>
+                                <div className="weather">{weather.weather[0].main}</div>
+                            </div>
+                            </div>
+                        ) : ('')}
+                    </Paper>
+                </Grid>
+            </Grid>
 
             {/* Logout button */}
             <div className="w-100 text-center mt-2">
@@ -273,12 +396,6 @@ export default function UserDashboard() {
                     Log Out
                 </Button>
             </div>
-
-
-            {/* email button */}
-            {/* <div className="w-100 text-center mt-2">
-                <Button variant="link" onClick={}>Send Email</Button>
-            </div> */}
-        </>
+        </div>
     )
 }
