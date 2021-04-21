@@ -2,6 +2,8 @@ import React, {useRef, useState } from 'react'
 import { Card, Form, Button, Container, Alert } from 'react-bootstrap'
 import { useAuth } from '../contexts/AuthContext.js'
 import { Link, useHistory } from "react-router-dom"
+import Image from '../assets/pic1.jpg';
+
 
 export default function Login() {
 

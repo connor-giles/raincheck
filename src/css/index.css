@@ -15,7 +15,6 @@ body {
   transition: 0.4 ease-out;
 }
 
-
 main {
   min-width: 100vh;
   min-height: 100vh;
@@ -25,6 +24,7 @@ main {
 .search-box {
   width: 100%;
   margin: 0 0 75 px;
+  background-color: rgb(203, 217, 236);
 }
 
 .search-box .search-bar {
